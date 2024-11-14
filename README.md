@@ -1,5 +1,5 @@
 # CMPT 431 Project
-By [Adrian Marin Estrada], Juan Antonio Gonzalez, Raymond Kong 
+By [Adrian Marin Estrada], Juan Antonio Gonzalez, [Raymond Kong] 
 
 ## Project description
 
@@ -24,6 +24,7 @@ CMPT_431_Project
 
 [//]: # (Reference links:)
 [adrian marin estrada]: <https://marinestrada.github.io/>
+[raymond kong]: <https://rkong04.github.io/>
 [431 course]: <https://www.sfu.ca/outlines.html?2024/fall/cmpt/431/d100>
 
 
