@@ -19,7 +19,8 @@
 #include <ctime>
 
 int create_file(std::string file_name, uint num_items, uint min_val, uint max_val, uint min_weight, uint max_weight) {
-    std::ofstream file(file_name);
+
+    std::ofstream file(file_name); // create file and check if properly created
 
     if (!file) {
         std::cerr << "Error creating file!" << std::endl;
@@ -31,15 +32,14 @@ int create_file(std::string file_name, uint num_items, uint min_val, uint max_va
     // seed for rand num generation
     srand(static_cast<unsigned>(time(0)));
 
+    //generate tuples for random values & weights
     for (uint i = 0; i < num_items; ++i) {
-        // int value = rand() % 100 + 1;   // Random value between 1 and 100
-        // int weight = rand() % 50 + 1;   // Random weight between 1 and 50
         uint value = rand() % max_val + min_val;   // Random value between min_val and max_val
         uint weight = rand() % max_weight + min_weight;   // Random weight between min_weight and max_weight
         file << "(" << value << ", " << weight << ")\n";
     }
 
-    file.close();
+    file.close(); // close file
     std::cout << "File created successfully." << std::endl;
 
     return 0;
@@ -70,6 +70,7 @@ int main(int argc, char* argv[]) {
     uint num_items = cl_options["nItems"].as<uint>();
     uint min_val = cl_options["minVal"].as<uint>();
     uint max_val = cl_options["maxVal"].as<uint>();
+    //if min of value||weight is greater than max, abort mission
     if (min_val > max_val) {
         std::cerr << "Minimum value cannot be greater than maximum value!" << std::endl;
         return 1;
