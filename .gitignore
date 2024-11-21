@@ -1,5 +1,6 @@
 *.swp
 *.txt
+.vscode/*
 knapsack_serial
 create_file
 read_file
