@@ -1,43 +1,85 @@
-//taken from https://www.educative.io/blog/0-1-knapsack-problem-dynamic-solution
+// found at: https://www.geeksforgeeks.org/0-1-knapsack-problem-dp-10/
+// C++ program for the above approach
+
+#include <bits/stdc++.h>
+#include "core/utils.h"
 #include <iostream>
+#include <fstream>
 #include <vector>
+#include <string>
+#include <sstream>
 using namespace std;
 
-int knapsackRecursive(vector< vector<int> > lookupTable, int profits[], int profitsLength, int weights[], int capacity, int currentIndex) {
+// Function to find the maximum values
+int knapSack(int capacity, std::vector<int> wt, std::vector<int> val, int n)
+{
+    // Making and initializing dp array
+    int dp[capacity + 1];
+    memset(dp, 0, sizeof(dp));
 
-  // base checks  
-  if (capacity <= 0 || currentIndex >= profitsLength || currentIndex < 0)
+    for (int i = 1; i < n + 1; i++) {
+        for (int w = capacity; w >= 0; w--) {
+
+            if (wt[i - 1] <= w)
+                
+                // Finding the maximum value
+                dp[w] = max(dp[w],
+                            dp[w - wt[i - 1]] + val[i - 1]);
+        }
+    }
+    // Returning the maximum value of knapsack
+    return dp[capacity];
+}
+
+// Driver code
+int main(int argc, char* argv[]) {
+
+    // reading stuff from a file:
+
+    //init command line args
+    cxxopts::Options options("Read input file",
+                            "Read input file for knapsack problem");
+    options.add_options(
+        "custom",
+        {
+            {"fName", "File Name",
+            cxxopts::value<std::string>()->default_value("knapsack_input.txt")},
+        });
+    auto cl_options = options.parse(argc, argv);
+    std::string file_name = cl_options["fName"].as<std::string>();
+
+    // Open the file
+    std::ifstream file(file_name); // Open the file
+    if (!file) {
+        std::cerr << "Unable to open file.\n";
+        return 1;
+    }
+
+    std::string line;
+    std::getline(file, line); // Read the first line for the number of tuples
+    uint num_tuples = std::stoi(line);
+
+    std::vector<int> values;
+    std::vector<int> weights;
+
+    while (std::getline(file, line)) { // Read each line, one I/O per line
+        std::istringstream line_stream(line); // get line stream for parsing in memory
+        char ch;
+        int value, weight;
+
+        line_stream >> ch >> value >> ch >> weight >> ch; // Parse the tuple format (1, 2)
+        values.push_back(value); // Add the value to the vector
+        weights.push_back(weight); // add weight to the vector
+    }
+    file.close(); // Close the file
+
+    //output
+    for(int i = 0; i < num_tuples; ++i){
+        std::cout << "(" << values[i] << ", " << weights[i] << ")" 
+                  << "added ints are: " << values[i] + weights[i] << std::endl;
+    }
+    int capacity = 50;
+    int n = sizeof(values) / sizeof(values[0]);
+    cout << knapSack(capacity, weights, values, n);
     return 0;
-
-  // if we have already solved the problem, return the result from the table  
-  if (lookupTable[currentIndex][capacity] != 0)
-    return lookupTable[currentIndex][capacity];
-
-  // recursive call after choosing the element at the currentIndex
-  // if the weight of the element at currentIndex exceeds the capacity, we shouldn't process this
-  int profit1 = 0;
-  if (weights[currentIndex] <= capacity)
-    profit1 = profits[currentIndex] + knapsackRecursive(lookupTable, profits, profitsLength, weights,
-      capacity - weights[currentIndex], currentIndex + 1);
-
-  // recursive call after excluding the element at the currentIndex
-  int profit2 = knapsackRecursive(lookupTable, profits, profitsLength, weights, capacity, currentIndex + 1);
-
-  lookupTable[currentIndex][capacity] = max(profit1, profit2);
-  return lookupTable[currentIndex][capacity];
 }
-
-int knapSack(int profits[], int profitsLength, int weights[], int capacity) {
-  vector< vector<int> > lookupTable(
-    profitsLength,
-    std::vector<int>(capacity + 1, 0));
-  return knapsackRecursive(lookupTable, profits, profitsLength, weights, capacity, 0);
-}
-
-int main() {
-    int profits[] = {1, 6, 10, 16};
-    int weights[] = {1, 2, 3, 5};
-    cout << "Total knapsack profit = " << knapSack(profits,4, weights, 7) << endl;
-    cout << "Total knapsack profit = " << knapSack(profits,4, weights, 6) << endl;
-}
-
