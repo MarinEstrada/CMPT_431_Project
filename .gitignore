@@ -1,1 +1,5 @@
 *.swp
+*.txt
+knapsack_serial
+create_file
+read_file
