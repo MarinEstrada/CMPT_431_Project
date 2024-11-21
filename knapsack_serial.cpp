@@ -11,24 +11,35 @@
 using namespace std;
 
 // Function to find the maximum values
-int knapSack(int capacity, std::vector<int> wt, std::vector<int> val, int n)
+int knapSack(const int capacity, std::vector<int> weights, std::vector<int> profits, const int num_items)
 {
-    // Making and initializing dp array
-    int dp[capacity + 1];
-    memset(dp, 0, sizeof(dp));
+    // Making and initializing max_current array
+    // max_current array index represents capacity knapsack can hold at that point
+    //     ie: index of 30 can hold capacity of 30 weight,
+    //         index of 40 can hold capacity of 40 weight, etc.
+    // indexes of higher capacity use previous interation of max_current array & lower indexes to find the max value it can hold
+    //    eg: imagine you're faced with an item X of 10 weight
+    //        if you're at index 30, can you hold more value by just using the previous index 30?
+    //        or can you hold more value by using the previous index 20 (current index - current item weight) and adding the new item
+    std::vector<int> max_current(capacity + 1, 0);
 
-    for (int i = 1; i < n + 1; i++) {
-        for (int w = capacity; w >= 0; w--) {
-
-            if (wt[i - 1] <= w)
-                
-                // Finding the maximum value
-                dp[w] = max(dp[w],
-                            dp[w - wt[i - 1]] + val[i - 1]);
+    for (int i = 1; i < num_items; i++) {
+        for (int w = capacity; w >= weights[i - 1]; w--) {     
+          // Finding the maximum value 
+          max_current[w] = std::max(max_current[w], max_current[w - weights[i - 1]] + profits[i - 1]);
         }
+        //need to have some sor to sync process for parallel versions HERE.
     }
+
+    if (capacity < weights[num_items - 1]) {
+        return max_current[capacity];
+    }
+
+    max_current[capacity] = std::max(max_current[capacity],
+                                    max_current[capacity - weights[num_items - 1]] + profits[num_items - 1]);
+
     // Returning the maximum value of knapsack
-    return dp[capacity];
+    return max_current[capacity];
 }
 
 // Driver code
@@ -78,8 +89,10 @@ int main(int argc, char* argv[]) {
         std::cout << "(" << values[i] << ", " << weights[i] << ")" 
                   << "added ints are: " << values[i] + weights[i] << std::endl;
     }
+    vector<int> tmp_values = {60, 100, 120};
+    vector<int> tmp_weights = {10, 20, 30};
     int capacity = 50;
-    int n = sizeof(values) / sizeof(values[0]);
-    cout << knapSack(capacity, weights, values, n);
+    // cout << knapSack(capacity, weights, values, num_tuples);
+    cout << knapSack(capacity, tmp_weights, tmp_values, num_tuples);
     return 0;
 }
