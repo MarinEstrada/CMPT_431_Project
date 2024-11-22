@@ -12,13 +12,60 @@
 
 #define DEFAULT_CAPACITY "50"
 
+void knapsack_parallel(const int capacity, std::vector<int> weights, std::vector<int> profits, const int num_items,
+                        std::vector<int> &profit_at_capacity, double &time_taken, const int start_x, const int end_x,
+                        const int my_rank, const int world_size)
+{
+    timer process_timer;   // will measure time taken by individual process
+    process_timer.start(); // starting timer
+
+    for (int i = 1; i < num_items; i++) {
+        std::vector<int> changes_to_make; // vector to store changes to be sent out to other processes
+        std::vector<int> changes_to_process; // vector to store changes to be processed by current process
+        // for (int c = capacity; c >= weights[i - 1]; c--) {
+        // finding max capacity for capacity c
+        for (int c = end_x; c >= start_x; c--) {
+            // Finding the maximum value at capacity c
+            int tmp_profit = profit_at_capacity[c - weights[i - 1]] + profits[i - 1]; // what if we add current item
+            if (profit_at_capacity[c] < tmp_profit) { // if adding current item is more profitable...add it
+                profit_at_capacity[c] = tmp_profit;
+                changes_to_make.push_back(c); // add index where change is to be made to later send
+                changes_to_make.push_back(profit_at_capacity[c]); // add new value to be inserted to later send
+            }
+        }
+        // need to have some sor to sync process for parallel versions HERE.
+        if (my_rank != 0) { // all processes except root process recieve data from previous process
+            int size_to_recv = 0; // size of changes to be received vector
+            MPI_Recv(&size_to_recv, 1, MPI_INT, my_rank - 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE); //saying how large package of changes to make will be, tag == 0
+            changes_to_process.resize(size_to_recv); // resize vector to be received
+            MPI_Recv(changes_to_process.data(), size_to_recv, MPI_INT, my_rank - 1, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE); // receive actual changes to be made, tag == 1
+            //--------------------------------------------------------------------------------
+            // NEED TO COMBINE CHANGES TO MAKE BEFORE SENDING TO NEXT PROCESS
+            //--------------------------------------------------------------------------------
+        }
+        if (my_rank != world_size - 1) { // all processes except last process send data to next process
+            int size_to_send = changes_to_make.size(); // size of changes to be made vector
+            MPI_Send(&size_to_send, 1, MPI_INT, my_rank + 1, 0, MPI_COMM_WORLD); // send size of changes to be made, tag == 0
+            MPI_Send(changes_to_make.data(), size_to_send, MPI_INT, my_rank + 1, 1, MPI_COMM_WORLD); // send actual changes to be made, tag == 1
+        }
+
+        //process changes to be made from dependencies to current process..
+
+    }
+
+    if ((my_rank == 0) && (capacity >= weights[num_items - 1])) {
+        profit_at_capacity[capacity] = std::max(profit_at_capacity[capacity],
+                                                profit_at_capacity[capacity - weights[num_items - 1]] + profits[num_items - 1]);
+    }
+}
+
 // Function to find the maximum values
 int knapSack(const int capacity, std::vector<int> weights, std::vector<int> profits, const int num_items, 
             const int my_rank, const int world_size)
 {
     // prep dividing work amongst processes & getting time
     timer program_timer; // will measure time taken by entire program (printed by root process)
-    double process_time_taken = 0.0; // will measure time taken by individual process
+    double time_taken = 0.0; // will measure time taken by individual process
     uint start_x = 0; // start index for each process
     uint end_x = 0; // end index for each process
 
@@ -50,20 +97,20 @@ int knapSack(const int capacity, std::vector<int> weights, std::vector<int> prof
         
     std::vector<int> profit_at_capacity(capacity + 1, 0);
 
-    for (int i = 1; i < num_items; i++) {
-        for (int w = capacity; w >= weights[i - 1]; w--) {     
-          // Finding the maximum value 
-          profit_at_capacity[w] = std::max(profit_at_capacity[w], profit_at_capacity[w - weights[i - 1]] + profits[i - 1]);
-        }
-        //need to have some sor to sync process for parallel versions HERE.
-    }
+    // for (int i = 1; i < num_items; i++) {
+    //     for (int w = capacity; w >= weights[i - 1]; w--) {
+    //       // Finding the maximum value
+    //       profit_at_capacity[w] = std::max(profit_at_capacity[w], profit_at_capacity[w - weights[i - 1]] + profits[i - 1]);
+    //     }
+    //     //need to have some sor to sync process for parallel versions HERE.
+    // }
 
-    if (capacity < weights[num_items - 1]) {
-        return profit_at_capacity[capacity];
-    }
+    // if (capacity < weights[num_items - 1]) {
+    //     return profit_at_capacity[capacity];
+    // }
 
-    profit_at_capacity[capacity] = std::max(profit_at_capacity[capacity],
-                                    profit_at_capacity[capacity - weights[num_items - 1]] + profits[num_items - 1]);
+    // profit_at_capacity[capacity] = std::max(profit_at_capacity[capacity],
+    //                                 profit_at_capacity[capacity - weights[num_items - 1]] + profits[num_items - 1]);
 
     // Returning the maximum value of knapsack
     return profit_at_capacity[capacity];
