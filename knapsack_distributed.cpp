@@ -24,7 +24,7 @@ void knapsack_parallel(const int capacity, std::vector<int> weights, std::vector
         std::vector<int> changes_to_process; // vector to store changes to be processed by current process
         // for (int c = capacity; c >= weights[i - 1]; c--) {
         // finding max capacity for capacity c
-        for (int c = end_x; c >= start_x; c--) {
+        for (int c = end_x; c >= weights[i-1] && c >= start_x; c--) {
             // Finding the maximum value at capacity c
             int tmp_profit = profit_at_capacity[c - weights[i - 1]] + profits[i - 1]; // what if we add current item
             if (profit_at_capacity[c] < tmp_profit) { // if adding current item is more profitable...add it
@@ -58,6 +58,12 @@ void knapsack_parallel(const int capacity, std::vector<int> weights, std::vector
             // changes_to_process[i + 1] == new value to insert
             profit_at_capacity[changes_to_process[i]] = changes_to_process[i + 1]; // make changes to profit_at_capacity
         }
+        // //printing out profit_at_capacity for debugging
+        // std::cout << "profit_at_capacity: ";
+        // for(size_t i = 0; i < profit_at_capacity.size(); ++i){
+        //     std::cout << i << ":" << profit_at_capacity[i] << " ";
+        // }
+        // std::cout << "\n";
 
     }
 
