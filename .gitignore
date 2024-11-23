@@ -2,5 +2,6 @@
 *.txt
 .vscode/*
 knapsack_serial
+knapsack_distributed
 create_file
 read_file
