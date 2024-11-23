@@ -1,6 +1,6 @@
 CXX = g++
 MPICXX = mpic++
-CXXFLAGS = -std=c++14 -03
+CXXFLAGS = -std=c++14
 
 COMMON= core/utils.h core/cxxopts.h core/get_time.h
 SERIAL= knapsack_serial
@@ -14,7 +14,7 @@ $(SERIAL): %: %.cpp
 	$(CXX) $(CXXFLAGS) -o $@ $<
 
 $(PARALLEL): %: %.cpp
-	$(MPICXX) $(CXXFLAGS) -o $@ $<
+	$(CXX) $(CXXFLAGS) -o $@ $<
 
 $(DISTRIBUTED): %: %.cpp
 	$(MPICXX) $(CXXFLAGS) -o $@ $<
