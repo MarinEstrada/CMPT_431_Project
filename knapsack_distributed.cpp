@@ -41,7 +41,10 @@ void knapsack_parallel(const int capacity, std::vector<int> weights, std::vector
             MPI_Recv(changes_to_process.data(), size_to_recv, MPI_INT, my_rank - 1, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE); // receive actual changes to be made, tag == 1
             //--------------------------------------------------------------------------------
             // NEED TO COMBINE CHANGES TO MAKE BEFORE SENDING TO NEXT PROCESS
+            // next process will need to know what changes to make from all previous processes
             //--------------------------------------------------------------------------------
+            changes_to_make.insert(changes_to_make.end(), changes_to_process.begin(), changes_to_process.end()); // combine changes to be made
+
         }
         if (my_rank != world_size - 1) { // all processes except last process send data to next process
             int size_to_send = changes_to_make.size(); // size of changes to be made vector
@@ -50,13 +53,22 @@ void knapsack_parallel(const int capacity, std::vector<int> weights, std::vector
         }
 
         //process changes to be made from dependencies to current process..
+        for (size_t i = 0; i < changes_to_process.size(); i += 2) {
+            // changes_to_process[i] == index of profit_at_capacity to change
+            // changes_to_process[i + 1] == new value to insert
+            profit_at_capacity[changes_to_process[i]] = changes_to_process[i + 1]; // make changes to profit_at_capacity
+        }
 
     }
 
-    if ((my_rank == 0) && (capacity >= weights[num_items - 1])) {
+    // for last process in charge of last index, check if last item should be used for max capacity
+    // can ignore other indexes since they won't be used anymore
+    if ((my_rank == (world_size - 1)) && (capacity >= weights[num_items - 1])) {
         profit_at_capacity[capacity] = std::max(profit_at_capacity[capacity],
                                                 profit_at_capacity[capacity - weights[num_items - 1]] + profits[num_items - 1]);
     }
+
+    time_taken = process_timer.stop(); // stopping timer
 }
 
 // Function to find the maximum values
@@ -64,10 +76,11 @@ int knapSack(const int capacity, std::vector<int> weights, std::vector<int> prof
             const int my_rank, const int world_size)
 {
     // prep dividing work amongst processes & getting time
-    timer program_timer; // will measure time taken by entire program (printed by root process)
+    timer program_timer; // will measure time taken by entire program (printed by last process)
     double time_taken = 0.0; // will measure time taken by individual process
     uint start_x = 0; // start index for each process
     uint end_x = 0; // end index for each process
+    int dummy_var = 0; // dummy variable for syncing processes
 
     //start timer & start distributing
     //--------------------------------------------------------------------------------
@@ -95,7 +108,31 @@ int knapSack(const int capacity, std::vector<int> weights, std::vector<int> prof
         end_x = start_x + min_indexes - 1;
     }
         
+    //create vector to store profit at capacities 0 through capacity
     std::vector<int> profit_at_capacity(capacity + 1, 0);
+
+    knapsack_parallel(capacity, weights, profits, num_items, profit_at_capacity, time_taken,
+                      start_x, end_x, my_rank, world_size);
+
+    //--------------------------------------------------------------------------------
+    // PRINTING RESULTS
+    //--------------------------------------------------------------------------------
+    if(my_rank == 0) std::cout << "Process_rank, start_index, end_index, time_taken\n"; // only root prints result header
+
+    //for syncing processes use send msg, tag of 2 for dummy variable
+    if(my_rank != 0) MPI_Recv(&dummy_var, 1, MPI_INT, my_rank - 1, 2, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    std::cout << my_rank << ", " << start_x << ", " << end_x << ", " << time_taken << "\n"; // printing of results
+    if(my_rank != world_size - 1) MPI_Send(&dummy_var, 1, MPI_INT, my_rank + 1, 2, MPI_COMM_WORLD);
+
+    if(my_rank == world_size -1 ){ // only last process prints final time & result
+        time_taken = program_timer.stop();
+        std::cout << "Time taken: " << std::setprecision(TIME_PRECISION) << time_taken << " seconds\n";
+        std::cout << "Maximum value: " << profit_at_capacity[capacity] << std::endl;
+    }
+
+
+
+
 
     // for (int i = 1; i < num_items; i++) {
     //     for (int w = capacity; w >= weights[i - 1]; w--) {
