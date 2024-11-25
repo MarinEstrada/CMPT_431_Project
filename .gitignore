@@ -1,5 +1,6 @@
 *.swp
 *.txt
+*.btr
 .vscode/*
 knapsack_serial
 knapsack_distributed
