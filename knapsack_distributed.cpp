@@ -22,6 +22,7 @@ void knapsack_parallel(const int capacity, std::vector<int> weights, std::vector
     for (int i = 1; i < num_items; i++) {
         std::vector<int> changes_to_make; // vector to store changes to be sent out to other processes
         std::vector<int> changes_to_process; // vector to store changes to be processed by current process
+        // std::cout<<"size of changes_to_make is: "<<changes_to_make.size()<<"\n"; 
         // for (int c = capacity; c >= weights[i - 1]; c--) {
         // finding max capacity for capacity c
         for (int c = end_x; c >= weights[i-1] && c >= start_x; c--) {
@@ -31,14 +32,26 @@ void knapsack_parallel(const int capacity, std::vector<int> weights, std::vector
                 profit_at_capacity[c] = tmp_profit;
                 changes_to_make.push_back(c); // add index where change is to be made to later send
                 changes_to_make.push_back(profit_at_capacity[c]); // add new value to be inserted to later send
+                // if(my_rank == 0) std::cout << "c: " << c << ", profit_at_capacity[c]: " << profit_at_capacity[c] << "\n";
             }
         }
         // need to have some sor to sync process for parallel versions HERE.
         if (my_rank != 0) { // all processes except root process recieve data from previous process
             int size_to_recv = 0; // size of changes to be received vector
-            MPI_Recv(&size_to_recv, 1, MPI_INT, my_rank - 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE); //saying how large package of changes to make will be, tag == 0
+            int result;
+            result = MPI_Recv(&size_to_recv, 1, MPI_INT, my_rank - 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE); //saying how large package of changes to make will be, tag == 0
+            if (result != MPI_SUCCESS) {
+                std::cerr << "Error receiving size_to_recv at process " << my_rank << "\n";
+                MPI_Abort(MPI_COMM_WORLD, result);
+            }
+            // std::cout << "size_to_recv: " << size_to_recv << "\n";
+            if(size_to_recv == 0) continue; // if no changes to be made, skip to next iteration
             changes_to_process.resize(size_to_recv); // resize vector to be received
-            MPI_Recv(changes_to_process.data(), size_to_recv, MPI_INT, my_rank - 1, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE); // receive actual changes to be made, tag == 1
+            result = MPI_Recv(changes_to_process.data(), size_to_recv, MPI_INT, my_rank - 1, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE); // receive actual changes to be made, tag == 1
+            if (result != MPI_SUCCESS) {
+                std::cerr << "Error receiving changes_to_process at process " << my_rank << "\n";
+                MPI_Abort(MPI_COMM_WORLD, result);
+            }
             //--------------------------------------------------------------------------------
             // NEED TO COMBINE CHANGES TO MAKE BEFORE SENDING TO NEXT PROCESS
             // next process will need to know what changes to make from all previous processes
@@ -48,8 +61,14 @@ void knapsack_parallel(const int capacity, std::vector<int> weights, std::vector
         }
         if (my_rank != world_size - 1) { // all processes except last process send data to next process
             int size_to_send = changes_to_make.size(); // size of changes to be made vector
-            MPI_Send(&size_to_send, 1, MPI_INT, my_rank + 1, 0, MPI_COMM_WORLD); // send size of changes to be made, tag == 0
-            MPI_Send(changes_to_make.data(), size_to_send, MPI_INT, my_rank + 1, 1, MPI_COMM_WORLD); // send actual changes to be made, tag == 1
+            // std::cout << "size_to_send: " << size_to_send << ", should be: " << changes_to_make.size() << "\n";
+            if(size_to_send == 0){
+                MPI_Send(NULL, 0, MPI_INT, my_rank + 1, 0, MPI_COMM_WORLD); // notifying we have nothing to send this round 
+            }
+            else{
+                MPI_Send(&size_to_send, 1, MPI_INT, my_rank + 1, 0, MPI_COMM_WORLD); // send size of changes to be made, tag == 0
+                MPI_Send(changes_to_make.data(), size_to_send, MPI_INT, my_rank + 1, 1, MPI_COMM_WORLD); // send actual changes to be made, tag == 1
+            }
         }
 
         //process changes to be made from dependencies to current process..
@@ -102,8 +121,8 @@ int knapSack(const int capacity, std::vector<int> weights, std::vector<int> prof
     // We distributing work by divying up indexes of profit_at_capacity array to be the responsibility of differing processes
     //--------------------------------------------------------------------------------
     program_timer.start(); //starting timer
-    uint min_indexes = capacity + 1 / world_size; // minimum indexes per process. capacity + 1 to account for max capacity index
-    uint extra_indexes = capacity % world_size; // extra indexes to be distributed amongst processes
+    uint min_indexes = (capacity + 1) / world_size; // minimum indexes per process. capacity + 1 to account for max capacity index
+    uint extra_indexes = (capacity + 1) % world_size; // extra indexes to be distributed amongst processes
     //computing start & end indexes for each process
     if(my_rank < extra_indexes){ // provide it with 1 extra index
         start_x = my_rank * (min_indexes + 1);
@@ -113,6 +132,8 @@ int knapSack(const int capacity, std::vector<int> weights, std::vector<int> prof
         // minux 1 because start index included in num min indexes (eg 0 + 2 = 3 indexes, if only 2ant 2 indexes do (0+2) -1)
         end_x = start_x + min_indexes - 1;
     }
+
+    // std::cout << "Process " << my_rank << " has start index: " << start_x << " and end index: " << end_x << "\n";
         
     //create vector to store profit at capacities 0 through capacity
     std::vector<int> profit_at_capacity(capacity + 1, 0);
@@ -222,8 +243,9 @@ int main(int argc, char* argv[]) {
     // std::vector<int> tmp_weights = {10, 20, 30};
     // int num_tuples = 3;
 
-    // testing values → should give 15170
     // these tests values taken from https://www.researchgate.net/publication/349878676_A_Phase_Angle-Modulated_Bat_Algorithm_with_Application_to_Antenna_Topology_Optimization#pf9
+
+    // testing values → should give 15170
     std::vector<int> tmp_values = {297, 295, 293, 292, 291, 289, 284, 284, 283, 283, 281, 280, 279,
                                 277, 276, 275, 273,264, 260, 257, 250, 236, 236, 235, 235, 233, 232,
                                 232, 228, 218, 217, 214, 211, 208, 205, 204, 203, 201, 196, 194, 193,
@@ -239,6 +261,12 @@ int main(int argc, char* argv[]) {
                                 26, 13, 8, 26, 5, 9};
     int num_tuples = 100;
     capacity = 3818;
+
+    // // testing values → should give → 295
+    // std::vector<int> tmp_values = {55, 10, 47, 5, 4, 50, 8, 61, 85, 87};
+    // std::vector<int> tmp_weights = {95, 4, 60, 32, 23, 72, 80, 62, 65, 46};
+    // int num_tuples = 10;
+    // capacity = 269;
     
     //printing out some starter info
     if(world_rank == 0){
