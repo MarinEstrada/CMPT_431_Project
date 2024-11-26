@@ -26,12 +26,12 @@ void knapSack(
     uint initial_weight_range = thread_id * granularity;
     for (int i = 1; i < num_items + 1; i++) {
         while(true) {
-            printf("Initial weight is %d\n", initial_weight_range);
-            for (int w = initial_weight_range; (w < granularity + initial_weight_range && w < total_capacity); w++) {     
+            //printf("Initial weight is %d\n", initial_weight_range);
+            for (int w = initial_weight_range; (w < granularity + initial_weight_range && w <= total_capacity); w++) {     
                 // Finding the maximum value
                 //printf("In capacity: %d, From Thread: %d \n", w, thread_id);
                 // Check if capacity could hold weight of new item
-                if (w >= weights[i]) {
+                if (w >= weights[i - 1]) {
                     //printf("Comparing previous: %d with %d \nMax current of item %d in capacity %d is: %d\n", max_current[i - 1][w], max_current[i - 1][w - weights[i - 1]] + profits[i - 1], i, w, max_current[i][w]);
                     max_current[i][w] = std::max(max_current[i - 1][w], max_current[i - 1][w - weights[i - 1]] + profits[i - 1]);
                 } else {
@@ -43,6 +43,14 @@ void knapSack(
             if (next_initial_weight_range.load() * granularity > total_capacity) {
                 // barrier
                 the_wall.wait();
+                if (thread_id == 0 && i == num_items) {
+                    for (const auto& row : max_current) { // Loop through each row
+                        for (const auto& element : row) { // Loop through each element in the row
+                            std::cout << element << " "; // Print the element
+                        }
+                        std::cout << std::endl; // Print a newline after each row
+                    }
+                }
                 uint current_next = next_initial_weight_range.load();
                 while (!next_initial_weight_range.compare_exchange_weak(current_next, num_threads));
                 break;
@@ -146,6 +154,7 @@ int main(int argc, char* argv[]) {
     uint granularity = 1;
     uint num_threads = 2;
     // cout << knapSack_parallel(capacity, weights, values, num_tuples);
-    std::cout << knapSack_parallel(capacity, tmp_weights, tmp_values, num_items, num_threads, granularity);
+    auto max_profit = knapSack_parallel(capacity, tmp_weights, tmp_values, num_items, num_threads, granularity);
+    assert(max_profit == 25);
     return 0;
 }
