@@ -43,14 +43,14 @@ void knapSack(
             if (next_initial_weight_range.load() * granularity > total_capacity) {
                 // barrier
                 the_wall.wait();
-                if (thread_id == 0 && i == num_items) {
-                    for (const auto& row : max_current) { // Loop through each row
-                        for (const auto& element : row) { // Loop through each element in the row
-                            std::cout << element << " "; // Print the element
-                        }
-                        std::cout << std::endl; // Print a newline after each row
-                    }
-                }
+                // if (thread_id == 0 && i == num_items) {
+                //     for (const auto& row : max_current) { // Loop through each row
+                //         for (const auto& element : row) { // Loop through each element in the row
+                //             std::cout << element << " "; // Print the element
+                //         }
+                //         std::cout << std::endl; // Print a newline after each row
+                //     }
+                // }
                 uint current_next = next_initial_weight_range.load();
                 while (!next_initial_weight_range.compare_exchange_weak(current_next, num_threads));
                 break;
@@ -86,7 +86,8 @@ int knapSack_parallel(
     threads.reserve(num_threads);
 
     CustomBarrier the_wall(num_threads);
-    
+    timer t1;
+    t1.start();
     for (uint thread_id = 0; thread_id < num_threads; thread_id++) {
         threads.emplace_back([capacity, &weights, &profits, num_items, thread_id, num_threads, granularity, &max_current, &next_initial_weight_range, &the_wall](){
             knapSack(capacity, weights, profits, num_items, thread_id, num_threads, granularity, max_current, next_initial_weight_range, the_wall);});
@@ -95,8 +96,10 @@ int knapSack_parallel(
     for (auto &thread: threads) {
         thread.join();
     }
+    auto execution_time = t1.stop();
     // Returning the maximum value of knapsack
-    std::cout << max_current[num_items][capacity] << std::endl;
+    printf("For granularity: %u\nWith num_threads: %u\nMaximum value of knapsack is %d\nTook %f seconds\n",granularity, num_threads, max_current[num_items][capacity], execution_time);
+    //std::cout << max_current[num_items][capacity] << std::endl;
     return max_current[num_items][capacity];
 }
 
@@ -147,6 +150,7 @@ int main(int argc, char* argv[]) {
     //     std::cout << "(" << values[i] << ", " << weights[i] << ")" 
     //               << "added ints are: " << values[i] + weights[i] << std::endl;
     // }
+
     std::vector<int> tmp_values = {5, 10, 10, 15, 12};
     std::vector<int> tmp_weights = {3, 4, 5, 6, 7};
     int capacity = 10;
@@ -154,7 +158,60 @@ int main(int argc, char* argv[]) {
     uint granularity = 1;
     uint num_threads = 2;
     // cout << knapSack_parallel(capacity, weights, values, num_tuples);
-    auto max_profit = knapSack_parallel(capacity, tmp_weights, tmp_values, num_items, num_threads, granularity);
-    assert(max_profit == 25);
+    // auto max_profit = knapSack_parallel(capacity, tmp_weights, tmp_values, num_items, num_threads, granularity);
+    // assert(max_profit == 25);
+    int max_profit;
+
+    for (uint threads = 1; threads < 10; threads++) {
+        for (uint gran = 1; gran < 5; gran++) {
+            max_profit = knapSack_parallel(capacity, tmp_weights, tmp_values, num_items, threads, gran);
+            assert(max_profit == 25);
+        }
+    }
+
+
+    // testing values → should give 15170
+    tmp_values = {297, 295, 293, 292, 291, 289, 284, 284, 283, 283, 281, 280, 279,
+                                277, 276, 275, 273,264, 260, 257, 250, 236, 236, 235, 235, 233, 232,
+                                232, 228, 218, 217, 214, 211, 208, 205, 204, 203, 201, 196, 194, 193,
+                                193, 192, 191, 190, 187, 187, 184, 184, 184, 181, 179, 176, 173, 172,
+                                171, 160, 128, 123, 114, 113, 107, 105, 101, 100, 100, 99, 98, 97, 94,
+                                94, 93, 91, 80, 74, 73, 72, 63, 63, 62, 61, 60, 56, 53, 52, 50, 48, 46,
+                                40, 40, 35, 28, 22, 22, 18, 15, 12, 11, 6, 5};
+    tmp_weights = {54, 95, 36, 18, 4, 71, 83, 16, 27, 84, 88, 45, 94, 64, 14, 80, 4, 23,
+                                75, 36, 90, 20, 77, 32, 58, 6, 14, 86, 84, 59, 71, 21, 30, 22, 96, 49, 81,
+                                48, 37, 28, 6, 84, 19, 55, 88, 38, 51, 52, 79, 55, 70, 53, 64, 99, 61, 86,
+                                1, 64, 32, 60, 42, 45, 34, 22, 49, 37, 33, 1, 78, 43, 85, 24, 96, 32, 99,
+                                57, 23, 8, 10, 74, 59, 89, 95, 40, 46, 65, 6, 89, 84, 83, 6, 19, 45, 59,
+                                26, 13, 8, 26, 5, 9};
+    num_items = 100;
+    capacity = 3818;
+
+    for (uint threads = 1; threads < 10; threads++) {
+        for (uint gran = 1; gran < 300; gran+=25) {
+            max_profit = knapSack_parallel(capacity, tmp_weights, tmp_values, num_items, threads, gran);
+            assert(max_profit == 15170);
+        }
+    }
+
+    // max_profit = knapSack_parallel(capacity, tmp_weights, tmp_values, num_items, num_threads, granularity);
+    // assert(max_profit == 15170);
+
+    // // testing values → should give → 295
+    tmp_values = {55, 10, 47, 5, 4, 50, 8, 61, 85, 87};
+    tmp_weights = {95, 4, 60, 32, 23, 72, 80, 62, 65, 46};
+    num_items = 10;
+    capacity = 269;
+
+    for (uint threads = 1; threads < 10; threads++) {
+        for (uint gran = 1; gran < 300; gran+=25) {
+            max_profit = knapSack_parallel(capacity, tmp_weights, tmp_values, num_items, threads, gran);
+            assert(max_profit == 295);
+        }
+    }
+
+    // max_profit = knapSack_parallel(capacity, tmp_weights, tmp_values, num_items, num_threads, granularity);
+    // assert(max_profit == 295);
+
     return 0;
 }
