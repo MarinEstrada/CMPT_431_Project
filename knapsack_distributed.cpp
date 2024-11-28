@@ -278,5 +278,6 @@ int main(int argc, char* argv[]) {
 
     // cout << knapSack(capacity, weights, values, num_tuples);
     knapSack(capacity, tmp_weights, tmp_values, num_tuples, world_rank, world_size);
+    MPI_Finalize();
     return 0;
 }
