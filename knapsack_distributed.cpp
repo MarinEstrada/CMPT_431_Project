@@ -14,75 +14,26 @@
 
 void knapsack_parallel(const int capacity, std::vector<int> weights, std::vector<int> profits, const int num_items,
                         std::vector<int> &profit_at_capacity, double &time_taken, const int start_x, const int end_x,
-                        const int my_rank, const int world_size)
+                        const int my_rank, const int world_size, std::vector<int> &displacements, std::vector<int> &counts)
 {
     timer process_timer;   // will measure time taken by individual process
     process_timer.start(); // starting timer
+    std::vector<int> prev_profits_at_capacity (capacity + 1, 0);
 
     for (int i = 1; i < num_items; i++) {
-        std::vector<int> changes_to_make; // vector to store changes to be sent out to other processes
-        std::vector<int> changes_to_process; // vector to store changes to be processed by current process
-        // std::cout<<"size of changes_to_make is: "<<changes_to_make.size()<<"\n"; 
-        // for (int c = capacity; c >= weights[i - 1]; c--) {
-        // finding max capacity for capacity c
         for (int c = end_x; c >= weights[i-1] && c >= start_x; c--) {
             // Finding the maximum value at capacity c
             int tmp_profit = profit_at_capacity[c - weights[i - 1]] + profits[i - 1]; // what if we add current item
             if (profit_at_capacity[c] < tmp_profit) { // if adding current item is more profitable...add it
                 profit_at_capacity[c] = tmp_profit;
-                changes_to_make.push_back(c); // add index where change is to be made to later send
-                changes_to_make.push_back(profit_at_capacity[c]); // add new value to be inserted to later send
+                // changes_to_make.push_back(c); // add index where change is to be made to later send
+                // changes_to_make.push_back(profit_at_capacity[c]); // add new value to be inserted to later send
                 // if(my_rank == 0) std::cout << "c: " << c << ", profit_at_capacity[c]: " << profit_at_capacity[c] << "\n";
             }
         }
         // need to have some sor to sync process for parallel versions HERE.
-        if (my_rank != 0) { // all processes except root process recieve data from previous process
-            int size_to_recv = 0; // size of changes to be received vector
-            int result;
-            result = MPI_Recv(&size_to_recv, 1, MPI_INT, my_rank - 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE); //saying how large package of changes to make will be, tag == 0
-            if (result != MPI_SUCCESS) {
-                std::cerr << "Error receiving size_to_recv at process " << my_rank << "\n";
-                MPI_Abort(MPI_COMM_WORLD, result);
-            }
-            // std::cout << "size_to_recv: " << size_to_recv << "\n";
-            if(size_to_recv == 0) continue; // if no changes to be made, skip to next iteration
-            changes_to_process.resize(size_to_recv); // resize vector to be received
-            result = MPI_Recv(changes_to_process.data(), size_to_recv, MPI_INT, my_rank - 1, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE); // receive actual changes to be made, tag == 1
-            if (result != MPI_SUCCESS) {
-                std::cerr << "Error receiving changes_to_process at process " << my_rank << "\n";
-                MPI_Abort(MPI_COMM_WORLD, result);
-            }
-            //--------------------------------------------------------------------------------
-            // NEED TO COMBINE CHANGES TO MAKE BEFORE SENDING TO NEXT PROCESS
-            // next process will need to know what changes to make from all previous processes
-            //--------------------------------------------------------------------------------
-            changes_to_make.insert(changes_to_make.end(), changes_to_process.begin(), changes_to_process.end()); // combine changes to be made
-
-        }
-        if (my_rank != world_size - 1) { // all processes except last process send data to next process
-            int size_to_send = changes_to_make.size(); // size of changes to be made vector
-            // std::cout << "size_to_send: " << size_to_send << ", should be: " << changes_to_make.size() << "\n";
-            if(size_to_send == 0){
-                MPI_Send(NULL, 0, MPI_INT, my_rank + 1, 0, MPI_COMM_WORLD); // notifying we have nothing to send this round 
-            }
-            else{
-                MPI_Send(&size_to_send, 1, MPI_INT, my_rank + 1, 0, MPI_COMM_WORLD); // send size of changes to be made, tag == 0
-                MPI_Send(changes_to_make.data(), size_to_send, MPI_INT, my_rank + 1, 1, MPI_COMM_WORLD); // send actual changes to be made, tag == 1
-            }
-        }
-
-        //process changes to be made from dependencies to current process..
-        for (size_t i = 0; i < changes_to_process.size(); i += 2) {
-            // changes_to_process[i] == index of profit_at_capacity to change
-            // changes_to_process[i + 1] == new value to insert
-            profit_at_capacity[changes_to_process[i]] = changes_to_process[i + 1]; // make changes to profit_at_capacity
-        }
-        // //printing out profit_at_capacity for debugging
-        // std::cout << "profit_at_capacity: ";
-        // for(size_t i = 0; i < profit_at_capacity.size(); ++i){
-        //     std::cout << i << ":" << profit_at_capacity[i] << " ";
-        // }
-        // std::cout << "\n";
+        MPI_Allgatherv(profit_at_capacity.data() + start_x, counts[my_rank], MPI_INT, prev_profits_at_capacity.data(), counts.data(), displacements.data(), MPI_INT, MPI_COMM_WORLD);
+        std::swap(profit_at_capacity, prev_profits_at_capacity);
 
     }
 
@@ -123,6 +74,8 @@ int knapSack(const int capacity, std::vector<int> weights, std::vector<int> prof
     program_timer.start(); //starting timer
     uint min_indexes = (capacity + 1) / world_size; // minimum indexes per process. capacity + 1 to account for max capacity index
     uint extra_indexes = (capacity + 1) % world_size; // extra indexes to be distributed amongst processes
+    std::vector<int> displacements(world_size, 0); // vector to store displacements for MPI_Gatherv
+    std::vector<int> counts(world_size, 0); // vector to store counts for MPI_Gatherv
     //computing start & end indexes for each process
     if(my_rank < extra_indexes){ // provide it with 1 extra index
         start_x = my_rank * (min_indexes + 1);
@@ -132,14 +85,25 @@ int knapSack(const int capacity, std::vector<int> weights, std::vector<int> prof
         // minux 1 because start index included in num min indexes (eg 0 + 2 = 3 indexes, if only 2ant 2 indexes do (0+2) -1)
         end_x = start_x + min_indexes - 1;
     }
+    int disp_to_send = start_x; // set displacement for current process
+    int count_to_send = end_x - start_x + 1; // set count for current process
+    MPI_Allgather(&disp_to_send, 1, MPI_INT, displacements.data(), 1, MPI_INT, MPI_COMM_WORLD); // gather displacements
+    MPI_Allgather(&count_to_send, 1, MPI_INT, counts.data(), 1, MPI_INT, MPI_COMM_WORLD); // gather counts
 
     // std::cout << "Process " << my_rank << " has start index: " << start_x << " and end index: " << end_x << "\n";
+    if(my_rank == 0) {
+        std::cout << "displacements are: ";
+        for(auto val : displacements) {
+            std::cout << val << ", ";
+        }
+        std::cout << "\n";
+    }
         
     //create vector to store profit at capacities 0 through capacity
     std::vector<int> profit_at_capacity(capacity + 1, 0);
 
     knapsack_parallel(capacity, weights, profits, num_items, profit_at_capacity, time_taken,
-                      start_x, end_x, my_rank, world_size);
+                      start_x, end_x, my_rank, world_size, displacements, counts);
 
     //--------------------------------------------------------------------------------
     // PRINTING RESULTS
