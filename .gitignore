@@ -1,8 +1,9 @@
 *.swp
-*.txt
+knapsack_input.txt
 *.btr
 .vscode/*
 knapsack_serial
 knapsack_distributed
 create_file
 read_file
+serial
