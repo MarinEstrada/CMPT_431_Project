@@ -48,7 +48,7 @@ void knapsack_parallel(const int capacity, std::vector<int> weights, std::vector
 }
 
 // Function to find the maximum values
-int knapSack(const int capacity, std::vector<int> weights, std::vector<int> profits, const int num_items, 
+void knapSack(const int capacity, std::vector<int> weights, std::vector<int> profits, const int num_items,
             const int my_rank, const int world_size)
 {
     // prep dividing work amongst processes & getting time
@@ -91,13 +91,13 @@ int knapSack(const int capacity, std::vector<int> weights, std::vector<int> prof
     MPI_Allgather(&count_to_send, 1, MPI_INT, counts.data(), 1, MPI_INT, MPI_COMM_WORLD); // gather counts
 
     // std::cout << "Process " << my_rank << " has start index: " << start_x << " and end index: " << end_x << "\n";
-    if(my_rank == 0) {
-        std::cout << "displacements are: ";
-        for(auto val : displacements) {
-            std::cout << val << ", ";
-        }
-        std::cout << "\n";
-    }
+    // if(my_rank == 0) {
+    //     std::cout << "displacements are: ";
+    //     for(auto val : displacements) {
+    //         std::cout << val << ", ";
+    //     }
+    //     std::cout << "\n";
+    // }
         
     //create vector to store profit at capacities 0 through capacity
     std::vector<int> profit_at_capacity(capacity + 1, 0);
@@ -112,36 +112,16 @@ int knapSack(const int capacity, std::vector<int> weights, std::vector<int> prof
 
     //for syncing processes use send msg, tag of 2 for dummy variable
     if(my_rank != 0) MPI_Recv(&dummy_var, 1, MPI_INT, my_rank - 1, 2, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-    std::cout << my_rank << ", " << start_x << ", " << end_x << ", " << time_taken << "\n"; // printing of results
+    std::cout << my_rank << ", " << start_x << ", " << end_x << ", " << std::setprecision(TIME_PRECISION) << time_taken << "\n"; // printing of results
     if(my_rank != world_size - 1) MPI_Send(&dummy_var, 1, MPI_INT, my_rank + 1, 2, MPI_COMM_WORLD);
 
     if(my_rank == world_size -1 ){ // only last process prints final time & result
         time_taken = program_timer.stop();
-        std::cout << "Time taken: " << std::setprecision(TIME_PRECISION) << time_taken << " seconds\n";
+        std::cout << "Total time taken: " << std::setprecision(TIME_PRECISION) << time_taken << " seconds\n";
         std::cout << "Maximum value: " << profit_at_capacity[capacity] << std::endl;
     }
 
-
-
-
-
-    // for (int i = 1; i < num_items; i++) {
-    //     for (int w = capacity; w >= weights[i - 1]; w--) {
-    //       // Finding the maximum value
-    //       profit_at_capacity[w] = std::max(profit_at_capacity[w], profit_at_capacity[w - weights[i - 1]] + profits[i - 1]);
-    //     }
-    //     //need to have some sor to sync process for parallel versions HERE.
-    // }
-
-    // if (capacity < weights[num_items - 1]) {
-    //     return profit_at_capacity[capacity];
-    // }
-
-    // profit_at_capacity[capacity] = std::max(profit_at_capacity[capacity],
-    //                                 profit_at_capacity[capacity - weights[num_items - 1]] + profits[num_items - 1]);
-
-    // Returning the maximum value of knapsack
-    return profit_at_capacity[capacity];
+    // return profit_at_capacity[capacity];
 }
 
 // Driver code
@@ -171,30 +151,30 @@ int main(int argc, char* argv[]) {
     std::string file_name = cl_options["fName"].as<std::string>(); // acquire file from where to read input
     int capacity = cl_options["capacity"].as<int>(); // acquire capacity of knapsack
 
-    // // Open the file
-    // std::ifstream file(file_name); // Open the file
-    // if (!file) {
-    //     std::cerr << "Unable to open file.\n";
-    //     return 1;
-    // }
+    // Open the file
+    std::ifstream file(file_name); // Open the file
+    if (!file) {
+        std::cerr << "Unable to open file.\n";
+        return 1;
+    }
 
-    // std::string line;
-    // std::getline(file, line); // Read the first line for the number of tuples
-    // uint num_tuples = std::stoi(line);
+    std::string line;
+    std::getline(file, line); // Read the first line for the number of tuples
+    uint num_tuples = std::stoi(line);
 
-    // std::vector<int> values;
-    // std::vector<int> weights;
+    std::vector<int> values;
+    std::vector<int> weights;
 
-    // while (std::getline(file, line)) { // Read each line, one I/O per line
-    //     std::istringstream line_stream(line); // get line stream for parsing in memory
-    //     char ch;
-    //     int value, weight;
+    while (std::getline(file, line)) { // Read each line, one I/O per line
+        std::istringstream line_stream(line); // get line stream for parsing in memory
+        char ch;
+        int value, weight;
 
-    //     line_stream >> ch >> value >> ch >> weight >> ch; // Parse the tuple format (1, 2)
-    //     values.push_back(value); // Add the value to the vector
-    //     weights.push_back(weight); // add weight to the vector
-    // }
-    // file.close(); // Close the file
+        line_stream >> ch >> value >> ch >> weight >> ch; // Parse the tuple format (1, 2)
+        values.push_back(value); // Add the value to the vector
+        weights.push_back(weight); // add weight to the vector
+    }
+    file.close(); // Close the file
 
     // // output
     // for(int i = 0; i < num_tuples; ++i){
@@ -203,32 +183,32 @@ int main(int argc, char* argv[]) {
     // }
     
     // //testing values → should give 220
-    // std::vector<int> tmp_values = {60, 100, 120};
-    // std::vector<int> tmp_weights = {10, 20, 30};
+    // std::vector<int> values = {60, 100, 120};
+    // std::vector<int> weights = {10, 20, 30};
     // int num_tuples = 3;
 
     // these tests values taken from https://www.researchgate.net/publication/349878676_A_Phase_Angle-Modulated_Bat_Algorithm_with_Application_to_Antenna_Topology_Optimization#pf9
 
-    // testing values → should give 15170
-    std::vector<int> tmp_values = {297, 295, 293, 292, 291, 289, 284, 284, 283, 283, 281, 280, 279,
-                                277, 276, 275, 273,264, 260, 257, 250, 236, 236, 235, 235, 233, 232,
-                                232, 228, 218, 217, 214, 211, 208, 205, 204, 203, 201, 196, 194, 193,
-                                193, 192, 191, 190, 187, 187, 184, 184, 184, 181, 179, 176, 173, 172,
-                                171, 160, 128, 123, 114, 113, 107, 105, 101, 100, 100, 99, 98, 97, 94,
-                                94, 93, 91, 80, 74, 73, 72, 63, 63, 62, 61, 60, 56, 53, 52, 50, 48, 46,
-                                40, 40, 35, 28, 22, 22, 18, 15, 12, 11, 6, 5};
-    std::vector<int> tmp_weights = {54, 95, 36, 18, 4, 71, 83, 16, 27, 84, 88, 45, 94, 64, 14, 80, 4, 23,
-                                75, 36, 90, 20, 77, 32, 58, 6, 14, 86, 84, 59, 71, 21, 30, 22, 96, 49, 81,
-                                48, 37, 28, 6, 84, 19, 55, 88, 38, 51, 52, 79, 55, 70, 53, 64, 99, 61, 86,
-                                1, 64, 32, 60, 42, 45, 34, 22, 49, 37, 33, 1, 78, 43, 85, 24, 96, 32, 99,
-                                57, 23, 8, 10, 74, 59, 89, 95, 40, 46, 65, 6, 89, 84, 83, 6, 19, 45, 59,
-                                26, 13, 8, 26, 5, 9};
-    int num_tuples = 100;
-    capacity = 3818;
+    // // testing values → should give 15170
+    // std::vector<int> values = {297, 295, 293, 292, 291, 289, 284, 284, 283, 283, 281, 280, 279,
+    //                             277, 276, 275, 273,264, 260, 257, 250, 236, 236, 235, 235, 233, 232,
+    //                             232, 228, 218, 217, 214, 211, 208, 205, 204, 203, 201, 196, 194, 193,
+    //                             193, 192, 191, 190, 187, 187, 184, 184, 184, 181, 179, 176, 173, 172,
+    //                             171, 160, 128, 123, 114, 113, 107, 105, 101, 100, 100, 99, 98, 97, 94,
+    //                             94, 93, 91, 80, 74, 73, 72, 63, 63, 62, 61, 60, 56, 53, 52, 50, 48, 46,
+    //                             40, 40, 35, 28, 22, 22, 18, 15, 12, 11, 6, 5};
+    // std::vector<int> weights = {54, 95, 36, 18, 4, 71, 83, 16, 27, 84, 88, 45, 94, 64, 14, 80, 4, 23,
+    //                             75, 36, 90, 20, 77, 32, 58, 6, 14, 86, 84, 59, 71, 21, 30, 22, 96, 49, 81,
+    //                             48, 37, 28, 6, 84, 19, 55, 88, 38, 51, 52, 79, 55, 70, 53, 64, 99, 61, 86,
+    //                             1, 64, 32, 60, 42, 45, 34, 22, 49, 37, 33, 1, 78, 43, 85, 24, 96, 32, 99,
+    //                             57, 23, 8, 10, 74, 59, 89, 95, 40, 46, 65, 6, 89, 84, 83, 6, 19, 45, 59,
+    //                             26, 13, 8, 26, 5, 9};
+    // int num_tuples = 100;
+    // capacity = 3818;
 
     // // testing values → should give → 295
-    // std::vector<int> tmp_values = {55, 10, 47, 5, 4, 50, 8, 61, 85, 87};
-    // std::vector<int> tmp_weights = {95, 4, 60, 32, 23, 72, 80, 62, 65, 46};
+    // std::vector<int> values = {55, 10, 47, 5, 4, 50, 8, 61, 85, 87};
+    // std::vector<int> weights = {95, 4, 60, 32, 23, 72, 80, 62, 65, 46};
     // int num_tuples = 10;
     // capacity = 269;
     
@@ -240,8 +220,7 @@ int main(int argc, char* argv[]) {
                   << "Num proccesses: " << world_size << std::endl;
     }
 
-    // cout << knapSack(capacity, weights, values, num_tuples);
-    knapSack(capacity, tmp_weights, tmp_values, num_tuples, world_rank, world_size);
+    knapSack(capacity, weights, values, num_tuples, world_rank, world_size);
     MPI_Finalize();
     return 0;
 }
