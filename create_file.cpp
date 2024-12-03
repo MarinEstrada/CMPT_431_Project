@@ -40,7 +40,7 @@ int create_file(std::string file_name, uint num_items, uint min_val, uint max_va
     }
 
     file.close(); // close file
-    std::cout << "File created successfully." << std::endl;
+    std::cout << "File \"" << file_name  << "\" created successfully." << std::endl;
 
     return 0;
 }
