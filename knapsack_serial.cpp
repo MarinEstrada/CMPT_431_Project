@@ -12,6 +12,8 @@
 // Function to find the maximum values
 int knapSack(const int capacity, std::vector<int> weights, std::vector<int> profits, const int num_items)
 {
+    timer program_timer; // to measure time taken by serial program
+    program_timer.start(); // start timer
     // Making and initializing max_current array
     // max_current array index represents capacity knapsack can hold at that point
     //     ie: index of 30 can hold capacity of 30 weight,
@@ -37,6 +39,14 @@ int knapSack(const int capacity, std::vector<int> weights, std::vector<int> prof
     max_current[capacity] = std::max(max_current[capacity],
                                     max_current[capacity - weights[num_items - 1]] + profits[num_items - 1]);
 
+    double time_taken = program_timer.stop(); // stopping timer
+    std::cout << "Process_rank, start_index, end_index, time_taken\n";
+    std::cout << "0" << ", " << "0" << ", " << capacity << ", " << std::setprecision(TIME_PRECISION) << time_taken << "\n"; // printing of results
+
+
+    time_taken = program_timer.stop();
+    std::cout << "Total time taken: " << std::setprecision(TIME_PRECISION) << time_taken << " seconds\n";
+    std::cout << "Maximum value: " << max_current[capacity] << std::endl;
     // Returning the maximum value of knapsack
     return max_current[capacity];
 }
@@ -86,16 +96,15 @@ int main(int argc, char* argv[]) {
     }
     file.close(); // Close the file
 
-    // // output
-    // for(int i = 0; i < num_tuples; ++i){
-    //     std::cout << "(" << values[i] << ", " << weights[i] << ")" 
-    //               << "added ints are: " << values[i] + weights[i] << std::endl;
-    // }
+    std::cout << "Starting knapsack problem\n"
+                << "Capacity: " << capacity << "\n"
+                << "Num Items: " << num_tuples << "\n"
+                << "Num proccesses: 1" << std::endl;
+
     // std::vector<int> tmp_values = {60, 100, 120};
     // std::vector<int> tmp_weights = {10, 20, 30};
     // int capacity = 50;
     // int num_tuples = 3;
-    std::cout << knapSack(capacity, weights, values, num_tuples) << std::endl;
-    // std::cout << knapSack(capacity, tmp_weights, tmp_values, num_tuples);
+    knapSack(capacity, weights, values, num_tuples);
     return 0;
 }
