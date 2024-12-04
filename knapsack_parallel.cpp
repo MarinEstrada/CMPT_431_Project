@@ -8,9 +8,8 @@
 #include <sstream>
 #include <thread>
 
-/*
-    This function considers different granularities
-*/
+#define DEFAULT_CAPACITY "50"
+
 void knapSack(
     const int total_capacity,
     const std::vector<int> &weights,
@@ -106,109 +105,113 @@ int knapSack_parallel(
 // Driver code
 int main(int argc, char* argv[]) {
 
-    // reading stuff from a file:
+    //init command line args
+    cxxopts::Options options("Read input file",
+                            "Read input file for knapsack problem");
+    options.add_options(
+        "custom",
+        {
+            {"fName", "File Name",
+            cxxopts::value<std::string>()->default_value("knapsack_input.txt")},
+            {"capacity", "Capacity of the knapsack",
+            cxxopts::value<int>()->default_value(DEFAULT_CAPACITY)},
+            {"numThreads", "Number of threads",
+            cxxopts::value<uint>()->default_value(DEFAULT_CAPACITY)},
+            {"granularity", "Granularity for threads to work in",
+            cxxopts::value<uint>()->default_value(DEFAULT_CAPACITY)},
+        });
+    auto cl_options = options.parse(argc, argv);
+    std::string file_name = cl_options["fName"].as<std::string>(); // acquire file from where to read input
+    int capacity = cl_options["capacity"].as<int>(); // acquire capacity of knapsack
+    uint num_threads = cl_options["numThreads"].as<uint>();
+    uint granularity = cl_options["granularity"].as<uint>();
 
-    // //init command line args
-    // cxxopts::Options options("Read input file",
-    //                         "Read input file for knapsack problem");
-    // options.add_options(
-    //     "custom",
-    //     {
-    //         {"fName", "File Name",
-    //         cxxopts::value<std::string>()->default_value("knapsack_input.txt")},
-    //     });
-    // auto cl_options = options.parse(argc, argv);
-    // std::string file_name = cl_options["fName"].as<std::string>();
 
-    // // Open the file
-    // std::ifstream file(file_name); // Open the file
-    // if (!file) {
-    //     std::cerr << "Unable to open file.\n";
-    //     return 1;
-    // }
-
-    // std::string line;
-    // std::getline(file, line); // Read the first line for the number of tuples
-    // uint num_tuples = std::stoi(line);
-
-    // std::vector<int> values;
-    // std::vector<int> weights;
-
-    // while (std::getline(file, line)) { // Read each line, one I/O per line
-    //     std::istringstream line_stream(line); // get line stream for parsing in memory
-    //     char ch;
-    //     int value, weight;
-
-    //     line_stream >> ch >> value >> ch >> weight >> ch; // Parse the tuple format (1, 2)
-    //     values.push_back(value); // Add the value to the vector
-    //     weights.push_back(weight); // add weight to the vector
-    // }
-    // file.close(); // Close the file
-
-    // // output
-    // for(int i = 0; i < num_tuples; ++i){
-    //     std::cout << "(" << values[i] << ", " << weights[i] << ")" 
-    //               << "added ints are: " << values[i] + weights[i] << std::endl;
-    // }
-
-    std::vector<int> tmp_values = {5, 10, 10, 15, 12};
-    std::vector<int> tmp_weights = {3, 4, 5, 6, 7};
-    int capacity = 10;
-    int num_items = 5;
-    uint granularity = 1;
-    uint num_threads = 2;
-    // cout << knapSack_parallel(capacity, weights, values, num_tuples);
-    // auto max_profit = knapSack_parallel(capacity, tmp_weights, tmp_values, num_items, num_threads, granularity);
-    // assert(max_profit == 25);
-    int max_profit;
-
-    for (uint threads = 1; threads < 10; threads++) {
-        for (uint gran = 1; gran < 5; gran++) {
-            max_profit = knapSack_parallel(capacity, tmp_weights, tmp_values, num_items, threads, gran);
-            assert(max_profit == 25);
-        }
+    // Open the file
+    std::ifstream file(file_name); // Open the file
+    if (!file) {
+        std::cerr << "Unable to open file.\n";
+        return 1;
     }
 
+    std::string line;
+    std::getline(file, line); // Read the first line for the number of tuples
+    uint num_tuples = std::stoi(line);
 
-    // testing values → should give 15170
-    tmp_values = {297, 295, 293, 292, 291, 289, 284, 284, 283, 283, 281, 280, 279,
-                                277, 276, 275, 273,264, 260, 257, 250, 236, 236, 235, 235, 233, 232,
-                                232, 228, 218, 217, 214, 211, 208, 205, 204, 203, 201, 196, 194, 193,
-                                193, 192, 191, 190, 187, 187, 184, 184, 184, 181, 179, 176, 173, 172,
-                                171, 160, 128, 123, 114, 113, 107, 105, 101, 100, 100, 99, 98, 97, 94,
-                                94, 93, 91, 80, 74, 73, 72, 63, 63, 62, 61, 60, 56, 53, 52, 50, 48, 46,
-                                40, 40, 35, 28, 22, 22, 18, 15, 12, 11, 6, 5};
-    tmp_weights = {54, 95, 36, 18, 4, 71, 83, 16, 27, 84, 88, 45, 94, 64, 14, 80, 4, 23,
-                                75, 36, 90, 20, 77, 32, 58, 6, 14, 86, 84, 59, 71, 21, 30, 22, 96, 49, 81,
-                                48, 37, 28, 6, 84, 19, 55, 88, 38, 51, 52, 79, 55, 70, 53, 64, 99, 61, 86,
-                                1, 64, 32, 60, 42, 45, 34, 22, 49, 37, 33, 1, 78, 43, 85, 24, 96, 32, 99,
-                                57, 23, 8, 10, 74, 59, 89, 95, 40, 46, 65, 6, 89, 84, 83, 6, 19, 45, 59,
-                                26, 13, 8, 26, 5, 9};
-    num_items = 100;
-    capacity = 3818;
+    std::vector<int> values;
+    std::vector<int> weights;
 
-    for (uint threads = 1; threads < 10; threads++) {
-        for (uint gran = 1; gran < 300; gran+=25) {
-            max_profit = knapSack_parallel(capacity, tmp_weights, tmp_values, num_items, threads, gran);
-            assert(max_profit == 15170);
-        }
+    while (std::getline(file, line)) { // Read each line, one I/O per line
+        std::istringstream line_stream(line); // get line stream for parsing in memory
+        char ch;
+        int value, weight;
+
+        line_stream >> ch >> value >> ch >> weight >> ch; // Parse the tuple format (1, 2)
+        values.push_back(value); // Add the value to the vector
+        weights.push_back(weight); // add weight to the vector
     }
+    file.close(); // Close the file
 
-    // max_profit = knapSack_parallel(capacity, tmp_weights, tmp_values, num_items, num_threads, granularity);
-    // assert(max_profit == 15170);
+    knapSack_parallel(capacity, weights, values, num_tuples, num_threads, granularity);
 
-    // // testing values → should give → 295
-    tmp_values = {55, 10, 47, 5, 4, 50, 8, 61, 85, 87};
-    tmp_weights = {95, 4, 60, 32, 23, 72, 80, 62, 65, 46};
-    num_items = 10;
-    capacity = 269;
+    // std::vector<int> tmp_values = {5, 10, 10, 15, 12};
+    // std::vector<int> tmp_weights = {3, 4, 5, 6, 7};
+    // int capacity = 10;
+    // int num_items = 5;
+    // uint granularity = 1;
+    // uint num_threads = 2;
+    // // cout << knapSack_parallel(capacity, weights, values, num_tuples);
+    // // auto max_profit = knapSack_parallel(capacity, tmp_weights, tmp_values, num_items, num_threads, granularity);
+    // // assert(max_profit == 25);
+    // int max_profit;
 
-    for (uint threads = 1; threads < 10; threads++) {
-        for (uint gran = 1; gran < 300; gran+=25) {
-            max_profit = knapSack_parallel(capacity, tmp_weights, tmp_values, num_items, threads, gran);
-            assert(max_profit == 295);
-        }
-    }
+    // for (uint threads = 1; threads < 10; threads++) {
+    //     for (uint gran = 1; gran < 5; gran++) {
+    //         max_profit = knapSack_parallel(capacity, tmp_weights, tmp_values, num_items, threads, gran);
+    //         assert(max_profit == 25);
+    //     }
+    // }
+
+
+    // // testing values → should give 15170
+    // tmp_values = {297, 295, 293, 292, 291, 289, 284, 284, 283, 283, 281, 280, 279,
+    //                             277, 276, 275, 273,264, 260, 257, 250, 236, 236, 235, 235, 233, 232,
+    //                             232, 228, 218, 217, 214, 211, 208, 205, 204, 203, 201, 196, 194, 193,
+    //                             193, 192, 191, 190, 187, 187, 184, 184, 184, 181, 179, 176, 173, 172,
+    //                             171, 160, 128, 123, 114, 113, 107, 105, 101, 100, 100, 99, 98, 97, 94,
+    //                             94, 93, 91, 80, 74, 73, 72, 63, 63, 62, 61, 60, 56, 53, 52, 50, 48, 46,
+    //                             40, 40, 35, 28, 22, 22, 18, 15, 12, 11, 6, 5};
+    // tmp_weights = {54, 95, 36, 18, 4, 71, 83, 16, 27, 84, 88, 45, 94, 64, 14, 80, 4, 23,
+    //                             75, 36, 90, 20, 77, 32, 58, 6, 14, 86, 84, 59, 71, 21, 30, 22, 96, 49, 81,
+    //                             48, 37, 28, 6, 84, 19, 55, 88, 38, 51, 52, 79, 55, 70, 53, 64, 99, 61, 86,
+    //                             1, 64, 32, 60, 42, 45, 34, 22, 49, 37, 33, 1, 78, 43, 85, 24, 96, 32, 99,
+    //                             57, 23, 8, 10, 74, 59, 89, 95, 40, 46, 65, 6, 89, 84, 83, 6, 19, 45, 59,
+    //                             26, 13, 8, 26, 5, 9};
+    // num_items = 100;
+    // capacity = 3818;
+
+    // for (uint threads = 1; threads < 10; threads++) {
+    //     for (uint gran = 1; gran < 300; gran+=25) {
+    //         max_profit = knapSack_parallel(capacity, tmp_weights, tmp_values, num_items, threads, gran);
+    //         assert(max_profit == 15170);
+    //     }
+    // }
+
+    // // max_profit = knapSack_parallel(capacity, tmp_weights, tmp_values, num_items, num_threads, granularity);
+    // // assert(max_profit == 15170);
+
+    // // // testing values → should give → 295
+    // tmp_values = {55, 10, 47, 5, 4, 50, 8, 61, 85, 87};
+    // tmp_weights = {95, 4, 60, 32, 23, 72, 80, 62, 65, 46};
+    // num_items = 10;
+    // capacity = 269;
+
+    // for (uint threads = 1; threads < 10; threads++) {
+    //     for (uint gran = 1; gran < 300; gran+=25) {
+    //         max_profit = knapSack_parallel(capacity, tmp_weights, tmp_values, num_items, threads, gran);
+    //         assert(max_profit == 295);
+    //     }
+    // }
 
     // max_profit = knapSack_parallel(capacity, tmp_weights, tmp_values, num_items, num_threads, granularity);
     // assert(max_profit == 295);

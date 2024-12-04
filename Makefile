@@ -10,18 +10,17 @@ CXXFLAGS = -std=c++14 -O3 $(MACRO)
 
 COMMON= core/utils.h core/cxxopts.h core/get_time.h 
 SERIAL= knapsack_serial create_file read_file
-#PARALLEL= knapsack_parallel
+PARALLEL= knapsack_parallel
 DISTRIBUTED= knapsack_distributed
-#ALL= $(SERIAL) $(PARALLEL)
-ALL= $(SERIAL) $(DISTRIBUTED)
+ALL= $(SERIAL) $(PARALLEL) $(DISTRIBUTED)
 
 all : $(ALL)
 
 $(SERIAL): %: %.cpp
 	$(CXX) $(CXXFLAGS) -o $@ $<
 
-#$(PARALLEL): %: %.cpp
-#	$(CXX) $(CXXFLAGS) -o $@ $<
+$(PARALLEL): %: %.cpp
+	$(CXX) $(CXXFLAGS) -o $@ $<
 
 $(DISTRIBUTED): %: %.cpp
 	$(MPICXX) $(CXXFLAGS) -o $@ $<
