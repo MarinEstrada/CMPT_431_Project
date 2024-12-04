@@ -18,22 +18,42 @@ void knapsack_parallel(const int capacity, std::vector<int> weights, std::vector
 {
     timer process_timer;   // will measure time taken by individual process
     process_timer.start(); // starting timer
-    std::vector<int> prev_profits_at_capacity (capacity + 1, 0);
+    // std::vector<int> prev_profits_at_capacity (capacity + 1, 0);
 
     for (int i = 1; i < num_items; i++) {
+        std::vector<int> changes_to_make; // vector to store changes to be made to profit_at_capacity array
+        std::vector<int> changes_to_process;
+        std::vector<int> num_changes_per_process(world_size, 0); // vector to store number of changes to be made per process
+        std::vector<int> change_displacements_per_process(world_size, 0); // vector to store displacements for changes to be made per process
         for (int c = end_x; c >= weights[i-1] && c >= start_x; c--) {
             // Finding the maximum value at capacity c
             int tmp_profit = profit_at_capacity[c - weights[i - 1]] + profits[i - 1]; // what if we add current item
             if (profit_at_capacity[c] < tmp_profit) { // if adding current item is more profitable...add it
                 profit_at_capacity[c] = tmp_profit;
-                // changes_to_make.push_back(c); // add index where change is to be made to later send
-                // changes_to_make.push_back(profit_at_capacity[c]); // add new value to be inserted to later send
+                changes_to_make.push_back(c); // add index where change is to be made to later send
+                changes_to_make.push_back(profit_at_capacity[c]); // add new value to be inserted to later send
                 // if(my_rank == 0) std::cout << "c: " << c << ", profit_at_capacity[c]: " << profit_at_capacity[c] << "\n";
             }
         }
         // need to have some sor to sync process for parallel versions HERE.
-        MPI_Allgatherv(profit_at_capacity.data() + start_x, counts[my_rank], MPI_INT, prev_profits_at_capacity.data(), counts.data(), displacements.data(), MPI_INT, MPI_COMM_WORLD);
-        std::swap(profit_at_capacity, prev_profits_at_capacity);
+        // MPI_Allgatherv(profit_at_capacity.data() + start_x, counts[my_rank], MPI_INT, prev_profits_at_capacity.data(), counts.data(), displacements.data(), MPI_INT, MPI_COMM_WORLD);
+        // std::swap(profit_at_capacity, prev_profits_at_capacity);
+        //------------ new attempt----------------
+        int num_changes = changes_to_make.size(); // get size of what to send
+        MPI_Allgather(&num_changes, 1, MPI_INT, num_changes_per_process.data(), 1, MPI_INT, MPI_COMM_WORLD); //gather info on how many changes to expect (will work as counts[] in next all gather)
+        int total_changes = 0; // total number of changes to be made, a counter
+        for(int i = 0; i < world_size; ++i) {
+            change_displacements_per_process[i] = total_changes; // set displacement for each process
+            total_changes += num_changes_per_process[i]; // add up all changes to be made
+        }
+        changes_to_process.resize(total_changes); // resize vector to hold all changes
+        MPI_Allgatherv(changes_to_make.data(), num_changes, MPI_INT, changes_to_process.data(), num_changes_per_process.data(), change_displacements_per_process.data(), MPI_INT, MPI_COMM_WORLD); // gather all changes to be made
+        // apply changes to profit_at_capacity array
+        for(int i = 0; i < total_changes; i += 2) {
+            profit_at_capacity[changes_to_process[i]] = changes_to_process[i + 1];
+        }
+
+
 
     }
 
