@@ -147,4 +147,4 @@ def combine_slurm_outputs(output_filename="distributed_combined_output.txt"):
     print(f"Combined all slurm output files into {output_filename}")
 
 
-combine_slurm_outputs("combined_output.out")
+combine_slurm_outputs("distributed_combined_output.txt")
