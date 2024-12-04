@@ -12,6 +12,8 @@
 // Function to find the maximum values
 int knapSack(const int capacity, std::vector<int> weights, std::vector<int> profits, const int num_items)
 {
+    timer program_timer; // to measure time taken by serial program
+    program_timer.start(); // start timer
     // Making and initializing max_current array
     // max_current array index represents capacity knapsack can hold at that point
     //     ie: index of 30 can hold capacity of 30 weight,
@@ -37,6 +39,14 @@ int knapSack(const int capacity, std::vector<int> weights, std::vector<int> prof
     max_current[capacity] = std::max(max_current[capacity],
                                     max_current[capacity - weights[num_items - 1]] + profits[num_items - 1]);
 
+    double time_taken = program_timer.stop(); // stopping timer
+    std::cout << "Process_rank, start_index, end_index, time_taken\n";
+    std::cout << "0" << ", " << "0" << ", " << capacity << ", " << std::setprecision(TIME_PRECISION) << time_taken << "\n"; // printing of results
+
+
+    time_taken = program_timer.stop();
+    std::cout << "Total time taken: " << std::setprecision(TIME_PRECISION) << time_taken << " seconds\n";
+    std::cout << "Maximum value: " << max_current[capacity] << std::endl;
     // Returning the maximum value of knapsack
     return max_current[capacity];
 }
@@ -46,53 +56,55 @@ int main(int argc, char* argv[]) {
 
     // reading stuff from a file:
 
-    // //init command line args
-    // cxxopts::Options options("Read input file",
-    //                         "Read input file for knapsack problem");
-    // options.add_options(
-    //     "custom",
-    //     {
-    //         {"fName", "File Name",
-    //         cxxopts::value<std::string>()->default_value("knapsack_input.txt")},
-    //     });
-    // auto cl_options = options.parse(argc, argv);
-    // std::string file_name = cl_options["fName"].as<std::string>();
+    //init command line args
+    cxxopts::Options options("Read input file",
+                            "Read input file for knapsack problem");
+    options.add_options(
+        "custom",
+        {
+            {"fName", "File Name",
+            cxxopts::value<std::string>()->default_value("knapsack_input.txt")},
+            {"capacity", "Capacity of the knapsack",
+            cxxopts::value<int>()->default_value("50")},
+        });
+    auto cl_options = options.parse(argc, argv);
+    std::string file_name = cl_options["fName"].as<std::string>();
+    int capacity = cl_options["capacity"].as<int>();
 
-    // // Open the file
-    // std::ifstream file(file_name); // Open the file
-    // if (!file) {
-    //     std::cerr << "Unable to open file.\n";
-    //     return 1;
-    // }
+    // Open the file
+    std::ifstream file(file_name); // Open the file
+    if (!file) {
+        std::cerr << "Unable to open file.\n";
+        return 1;
+    }
 
-    // std::string line;
-    // std::getline(file, line); // Read the first line for the number of tuples
-    // uint num_tuples = std::stoi(line);
+    std::string line;
+    std::getline(file, line); // Read the first line for the number of tuples
+    uint num_tuples = std::stoi(line);
 
-    // std::vector<int> values;
-    // std::vector<int> weights;
+    std::vector<int> values;
+    std::vector<int> weights;
 
-    // while (std::getline(file, line)) { // Read each line, one I/O per line
-    //     std::istringstream line_stream(line); // get line stream for parsing in memory
-    //     char ch;
-    //     int value, weight;
+    while (std::getline(file, line)) { // Read each line, one I/O per line
+        std::istringstream line_stream(line); // get line stream for parsing in memory
+        char ch;
+        int value, weight;
 
-    //     line_stream >> ch >> value >> ch >> weight >> ch; // Parse the tuple format (1, 2)
-    //     values.push_back(value); // Add the value to the vector
-    //     weights.push_back(weight); // add weight to the vector
-    // }
-    // file.close(); // Close the file
+        line_stream >> ch >> value >> ch >> weight >> ch; // Parse the tuple format (1, 2)
+        values.push_back(value); // Add the value to the vector
+        weights.push_back(weight); // add weight to the vector
+    }
+    file.close(); // Close the file
 
-    // // output
-    // for(int i = 0; i < num_tuples; ++i){
-    //     std::cout << "(" << values[i] << ", " << weights[i] << ")" 
-    //               << "added ints are: " << values[i] + weights[i] << std::endl;
-    // }
-    std::vector<int> tmp_values = {60, 100, 120};
-    std::vector<int> tmp_weights = {10, 20, 30};
-    int capacity = 50;
-    int num_tuples = 3;
-    // cout << knapSack(capacity, weights, values, num_tuples);
-    std::cout << knapSack(capacity, tmp_weights, tmp_values, num_tuples);
+    std::cout << "Starting knapsack problem\n"
+                << "Capacity: " << capacity << "\n"
+                << "Num Items: " << num_tuples << "\n"
+                << "Num proccesses: 1" << std::endl;
+
+    // std::vector<int> tmp_values = {60, 100, 120};
+    // std::vector<int> tmp_weights = {10, 20, 30};
+    // int capacity = 50;
+    // int num_tuples = 3;
+    knapSack(capacity, weights, values, num_tuples);
     return 0;
 }

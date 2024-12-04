@@ -1,20 +1,27 @@
+
+ifdef USE_INT
+MACRO = -DUSE_INT
+endif
+
+#compiler setup
 CXX = g++
 MPICXX = mpic++
-CXXFLAGS = -std=c++14
+CXXFLAGS = -std=c++14 -O3 $(MACRO)
 
-COMMON= core/utils.h core/cxxopts.h core/get_time.h
-SERIAL= knapsack_serial
-PARALLEL= knapsack_parallel
+COMMON= core/utils.h core/cxxopts.h core/get_time.h 
+SERIAL= knapsack_serial create_file read_file
+#PARALLEL= knapsack_parallel
 DISTRIBUTED= knapsack_distributed
-ALL= $(SERIAL) $(PARALLEL) $(DISTRIBUTED)
+#ALL= $(SERIAL) $(PARALLEL)
+ALL= $(SERIAL) $(DISTRIBUTED)
 
-all: $(ALL)
+all : $(ALL)
 
 $(SERIAL): %: %.cpp
 	$(CXX) $(CXXFLAGS) -o $@ $<
 
-$(PARALLEL): %: %.cpp
-	$(CXX) $(CXXFLAGS) -o $@ $<
+#$(PARALLEL): %: %.cpp
+#	$(CXX) $(CXXFLAGS) -o $@ $<
 
 $(DISTRIBUTED): %: %.cpp
 	$(MPICXX) $(CXXFLAGS) -o $@ $<
@@ -22,4 +29,4 @@ $(DISTRIBUTED): %: %.cpp
 .PHONY : clean
 
 clean :
-	rm -r *.o *.obj $(ALL)
+	rm -f *.o *.obj $(ALL)
