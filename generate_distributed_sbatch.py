@@ -48,7 +48,7 @@ def generate_sbatch_content(program, num_processes, num_nodes, iteration, params
 #SBATCH --mem=5G
 #SBATCH --partition=slow
 
-echo "Running {program.split('/')[-1]} with {num_processes} MPI processes on {num_nodes} nodes, input {input_file} & capacity {cap}: Iteration {iteration}"
+echo "Running {program.split('/')[-1]} with {num_processes} MPI processes on {num_nodes} nodes, input {input_file.split(' ')[-1]} & capacity {cap.split(' ')[-1]}: Iteration {iteration}"
 srun {program} {params}
 """
 
