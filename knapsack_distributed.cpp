@@ -43,7 +43,7 @@ void knapsack_parallel(const int capacity, std::vector<int> weights, std::vector
         MPI_Allgather(&num_changes, 1, MPI_INT, num_changes_per_process.data(), 1, MPI_INT, MPI_COMM_WORLD); //gather info on how many changes to expect (will work as counts[] in next all gather)
         int total_changes = 0; // total number of changes to be made, a counter
         for(int i = 0; i < world_size; ++i) {
-            change_displacements_per_process[i] = total_changes; // set displacement for each process
+            change_displacements_per_process[i] = total_changes; // set displacement for each process, note at start is 0
             total_changes += num_changes_per_process[i]; // add up all changes to be made
         }
         changes_to_process.resize(total_changes); // resize vector to hold all changes
