@@ -49,11 +49,16 @@ void knapsack_parallel(const int capacity, std::vector<int> weights, std::vector
         changes_to_process.resize(total_changes); // resize vector to hold all changes
         MPI_Allgatherv(changes_to_make.data(), num_changes, MPI_INT, changes_to_process.data(), num_changes_per_process.data(), change_displacements_per_process.data(), MPI_INT, MPI_COMM_WORLD); // gather all changes to be made
         // apply changes to profit_at_capacity array
-        for(int i = 0; i < total_changes; i += 2) {
-            profit_at_capacity[changes_to_process[i]] = changes_to_process[i + 1];
+
+        if(my_rank != (world_size-1)) {
+            for(int i = 0; i < change_displacements_per_process[my_rank + 1]; i += 2) {
+                profit_at_capacity[changes_to_process[i]] = changes_to_process[i + 1];
+            }
+        } else {
+            for(int i = 0; i < total_changes; i += 2) {
+                profit_at_capacity[changes_to_process[i]] = changes_to_process[i + 1];
+            }
         }
-
-
 
     }
 
