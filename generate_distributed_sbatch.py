@@ -41,7 +41,7 @@ max_total_cpus = 8
 output_dir = "sbatch_files"
 os.makedirs(output_dir, exist_ok=True)
 
-def generate_sbatch_content(program, num_processes, num_nodes, iteration, params):
+def generate_sbatch_content(program, num_processes, num_nodes, iteration, params, input_file, cap):
     return f"""#!/bin/bash
 #SBATCH --nodes={num_nodes}
 #SBATCH --ntasks={num_processes}
@@ -72,11 +72,11 @@ for program in commands:
                         continue
                     
                     for iteration in range(1, iterations + 1):
-                        filename = f"test_{program_name}_n{num_processes}_nodes{num_nodes}_iter{iteration}.sbatch"
+                        filename = f"test_{program_name}_n{num_processes}_nodes{num_nodes}_iter{iteration}_{params}.sbatch"
                         filepath = os.path.join(output_dir, filename)
                         
                         sbatch_content = generate_sbatch_content(
-                            program, num_processes, num_nodes, iteration, params
+                            program, num_processes, num_nodes, iteration, params, input_file, cap
                         )
                         
                         with open(filepath, 'w') as sbatch_file:
