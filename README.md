@@ -40,6 +40,12 @@ If you wish to run programs individually, use our shell scripts `slurm_serial.sh
 make
 sbatch <shell_script>
 ```
+
+Note that if you wish to only compile one of the implementations of `knapsack_serial.cpp`, `knapsack_parallel.cpp`, or `knapsack_distributed.cpp`, run:
+```sh
+make <implementation_file_name without the '.cpp'>
+```
+
 ## To run on your machine:
 to run on your machine, using the following commands:
 _For the serial implementation:_
@@ -80,6 +86,12 @@ You can edit `minWeight` & `maxWeight` to change the weight range of created ite
 Change `minVal` & `maxVal` to change the value range of created items.
 Change `nItems` to change number of items in your new input file.
 Change `fName` to change the name of your new input file.
+
+## To remove all c++ executables
+To remove executables (not including shell scripts) run:
+```sh
+make clean
+```
 
 
 ## File Structure:
