@@ -31,14 +31,12 @@ iterations = 3
 
 # input_files = ["--fName thousand_item_input.txt", "--fName hundred_thousand_item_input.txt", "--fName ten_million_item_input.txt"]
 input_files = ["--fName hundred_thousand_input.txt"]
-num_threads = [4, 8]
-# capacities = ["--capacity 1000", "--capacity 100000", "--capacity 1000000"]
-capacities = ["--capacity 1000", "--capacity 100000"]
+num_threads = [2, 4, 8]
+capacities = ["--capacity 1000", "--capacity 100000", "--capacity 1000000"]
 #capacities = ["--capacity 1000000"]
-granularities = ["--granularity 69"]
-# granularities1 = ["--granularity 69", "--granularity 10", "--granularity 100"]
-# granularities2 = ["--granularity 69", "--granularity 100", "--granularity 10000"]
-# granularities3 = ["--granularity 69", "--granularity 1000", "--granularity 10000"]
+granularities1 = ["--granularity 0", "--granularity 10", "--granularity 100"]
+granularities2 = ["--granularity 0", "--granularity 100", "--granularity 10000"]
+granularities3 = ["--granularity 0", "--granularity 10000", "--granularity 100000"]
 # capacities = ["--capacity 1500"]
 
 max_jobs_per_batch = 4
@@ -66,11 +64,11 @@ for program in commands:
     for input_file in input_files:
         for cap in capacities:
             for threads in num_threads:
-                # granularities = granularities1
-                # if cap == "--capacity 100000":
-                #     granularities = granularities2
-                # elif cap == "--capacity 1000000":
-                #     granularities = granularities3
+                granularities = granularities1
+                if cap == "--capacity 100000":
+                    granularities = granularities2
+                elif cap == "--capacity 1000000":
+                    granularities = granularities3
                 for gran in granularities:
                     params = f"{input_file} {cap} --numThreads={threads} {gran}"
             
@@ -133,7 +131,7 @@ while i < len(sbatch_files):
 
     print("No jobs left. Proceeding to the next batch.")
 
-def combine_slurm_outputs(output_filename="parallel_combined_output.txt"):
+def combine_slurm_outputs(output_filename="final_parallel_combined_output.txt"):
     # Get all slurm output files (slurm-*.out)
     slurm_files = glob.glob("slurm-*.out")
     
@@ -153,4 +151,4 @@ def combine_slurm_outputs(output_filename="parallel_combined_output.txt"):
     print(f"Combined all slurm output files into {output_filename}")
 
 
-combine_slurm_outputs("parallel_combined_output.txt")
+combine_slurm_outputs("final_parallel_combined_output.txt")
