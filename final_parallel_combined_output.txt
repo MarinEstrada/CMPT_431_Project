@@ -522,6 +522,529 @@ Running with granularities
 Maximum value of knapsack is 88832
 Took 3.590558 seconds
 
+--- Contents of slurm-221369.out ---
+Running knapsack_parallel with 1 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 0: Iteration 1
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 1
+Granularity: 0
+Running default 1
+Size of vectors is: 10001, 10001, 10001
+Counterarr1: 33334
+Counterarr2: 33333
+Counterarr3: 33333
+In thread 0 start_index=0 and end_index=10001 it waited at wall for 0.0135 seconds
+Maximum value of knapsack is 821504
+Took 3.281015 seconds
+
+
+--- Contents of slurm-221370.out ---
+Running knapsack_parallel with 1 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 0: Iteration 2
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 1
+Granularity: 0
+Running default 1
+Size of vectors is: 10001, 10001, 10001
+Counterarr1: 33334
+Counterarr2: 33333
+Counterarr3: 33333
+In thread 0 start_index=0 and end_index=10001 it waited at wall for 0.0138 seconds
+Maximum value of knapsack is 821504
+Took 3.256139 seconds
+
+
+--- Contents of slurm-221371.out ---
+Running knapsack_parallel with 1 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 0: Iteration 3
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 1
+Granularity: 0
+Running default 1
+Size of vectors is: 10001, 10001, 10001
+Counterarr1: 33334
+Counterarr2: 33333
+Counterarr3: 33333
+In thread 0 start_index=0 and end_index=10001 it waited at wall for 0.0151 seconds
+Maximum value of knapsack is 821504
+Took 3.256023 seconds
+
+
+--- Contents of slurm-221372.out ---
+Running knapsack_parallel with 1 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 100: Iteration 1
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 1
+Granularity: 100
+Running with granularities
+Maximum value of knapsack is 821504
+Took 3.566600 seconds
+
+
+--- Contents of slurm-221373.out ---
+Running knapsack_parallel with 1 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 100: Iteration 2
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 1
+Granularity: 100
+Running with granularities
+Maximum value of knapsack is 821504
+Took 3.565636 seconds
+
+
+--- Contents of slurm-221374.out ---
+Running knapsack_parallel with 1 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 100: Iteration 3
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 1
+Granularity: 100
+Running with granularities
+Maximum value of knapsack is 821504
+Took 3.563954 seconds
+
+
+--- Contents of slurm-221375.out ---
+Running knapsack_parallel with 1 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 1000: Iteration 1
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 1
+Granularity: 1000
+Running with granularities
+Maximum value of knapsack is 821504
+Took 3.382929 seconds
+
+
+--- Contents of slurm-221376.out ---
+Running knapsack_parallel with 1 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 1000: Iteration 2
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 1
+Granularity: 1000
+Running with granularities
+Maximum value of knapsack is 821504
+Took 3.372678 seconds
+
+
+--- Contents of slurm-221377.out ---
+Running knapsack_parallel with 1 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 1000: Iteration 3
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 1
+Granularity: 1000
+Running with granularities
+Maximum value of knapsack is 821504
+Took 3.390004 seconds
+
+
+--- Contents of slurm-221378.out ---
+Running knapsack_parallel with 2 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 0: Iteration 1
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 2
+Granularity: 0
+Running default 1
+Size of vectors is: 10001, 10001, 10001
+Counterarr1: 33334
+Counterarr2: 33333
+Counterarr3: 33333
+In thread 0 start_index=0 and end_index=5001 it waited at wall for 0.7274 seconds
+In thread 1 start_index=5001 and end_index=10001 it waited at wall for 0.7320 seconds
+Maximum value of knapsack is 821504
+Took 2.605309 seconds
+
+
+--- Contents of slurm-221379.out ---
+Running knapsack_parallel with 2 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 0: Iteration 2
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 2
+Granularity: 0
+Running default 1
+Size of vectors is: 10001, 10001, 10001
+Counterarr1: 33334
+Counterarr2: 33333
+Counterarr3: 33333
+In thread 0 start_index=0 and end_index=5001 it waited at wall for 0.7251 seconds
+In thread 1 start_index=5001 and end_index=10001 it waited at wall for 0.7255 seconds
+Maximum value of knapsack is 821504
+Took 2.603370 seconds
+
+
+--- Contents of slurm-221380.out ---
+Running knapsack_parallel with 2 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 0: Iteration 3
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 2
+Granularity: 0
+Running default 1
+Size of vectors is: 10001, 10001, 10001
+In thread 1 start_index=5001 and end_index=10001 it waited at wall for 0.7074 seconds
+Counterarr1: 33334
+Counterarr2: 33333
+Counterarr3: 33333
+In thread 0 start_index=0 and end_index=5001 it waited at wall for 0.6985 seconds
+Maximum value of knapsack is 821504
+Took 2.579557 seconds
+
+
+--- Contents of slurm-221381.out ---
+Running knapsack_parallel with 2 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 100: Iteration 1
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 2
+Granularity: 100
+Running with granularities
+Maximum value of knapsack is 821504
+Took 5.794436 seconds
+
+
+--- Contents of slurm-221382.out ---
+Running knapsack_parallel with 2 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 100: Iteration 2
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 2
+Granularity: 100
+Running with granularities
+Maximum value of knapsack is 821504
+Took 5.774678 seconds
+
+
+--- Contents of slurm-221383.out ---
+Running knapsack_parallel with 2 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 100: Iteration 3
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 2
+Granularity: 100
+Running with granularities
+Maximum value of knapsack is 821504
+Took 5.626308 seconds
+
+
+--- Contents of slurm-221384.out ---
+Running knapsack_parallel with 2 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 1000: Iteration 1
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 2
+Granularity: 1000
+Running with granularities
+Maximum value of knapsack is 821504
+Took 4.051653 seconds
+
+
+--- Contents of slurm-221385.out ---
+Running knapsack_parallel with 2 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 1000: Iteration 2
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 2
+Granularity: 1000
+Running with granularities
+Maximum value of knapsack is 821504
+Took 4.157695 seconds
+
+
+--- Contents of slurm-221386.out ---
+Running knapsack_parallel with 2 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 1000: Iteration 3
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 2
+Granularity: 1000
+Running with granularities
+Maximum value of knapsack is 821504
+Took 4.250559 seconds
+
+
+--- Contents of slurm-221387.out ---
+Running knapsack_parallel with 4 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 0: Iteration 1
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 4
+Granularity: 0
+Running default 1
+Size of vectors is: 10001, 10001, 10001
+Counterarr1: 33334
+Counterarr2: 33333
+Counterarr3: 33333
+In thread 0 start_index=0 and end_index=2501 it waited at wall for 1.3500 seconds
+In thread 3 start_index=7501 and end_index=10001 it waited at wall for 1.4030 seconds
+In thread 2 start_index=5001 and end_index=7501 it waited at wall for 1.2070 seconds
+In thread 1 start_index=2501 and end_index=5001 it waited at wall for 1.1836 seconds
+Maximum value of knapsack is 821504
+Took 2.379943 seconds
+
+
+--- Contents of slurm-221388.out ---
+Running knapsack_parallel with 4 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 0: Iteration 2
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 4
+Granularity: 0
+Running default 1
+Size of vectors is: 10001, 10001, 10001
+In thread 3 start_index=7501 and end_index=10001 it waited at wall for 1.3816 seconds
+In thread 2 start_index=5001 and end_index=7501 it waited at wall for 1.1940 seconds
+Counterarr1: 33334
+Counterarr2: 33333
+Counterarr3: 33333
+In thread 0 start_index=0 and end_index=2501 it waited at wall for 1.3375 seconds
+In thread 1 start_index=2501 and end_index=5001 it waited at wall for 1.1722 seconds
+Maximum value of knapsack is 821504
+Took 2.357776 seconds
+
+
+--- Contents of slurm-221389.out ---
+Running knapsack_parallel with 4 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 0: Iteration 3
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 4
+Granularity: 0
+Running default 1
+Size of vectors is: 10001, 10001, 10001
+In thread 1 start_index=2501 and end_index=5001 it waited at wall for 1.2004 seconds
+Counterarr1: 33334
+Counterarr2: 33333
+Counterarr3: 33333
+In thread 0 start_index=0 and end_index=2501 it waited at wall for 1.3635 seconds
+In thread 2 start_index=5001 and end_index=7501 it waited at wall for 1.2152 seconds
+In thread 3 start_index=7501 and end_index=10001 it waited at wall for 1.4062 seconds
+Maximum value of knapsack is 821504
+Took 2.384615 seconds
+
+
+--- Contents of slurm-221390.out ---
+Running knapsack_parallel with 4 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 100: Iteration 1
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 4
+Granularity: 100
+Running with granularities
+Maximum value of knapsack is 821504
+Took 4.424856 seconds
+
+
+--- Contents of slurm-221391.out ---
+Running knapsack_parallel with 4 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 100: Iteration 2
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 4
+Granularity: 100
+Running with granularities
+Maximum value of knapsack is 821504
+Took 4.419774 seconds
+
+
+--- Contents of slurm-221392.out ---
+Running knapsack_parallel with 4 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 100: Iteration 3
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 4
+Granularity: 100
+Running with granularities
+Maximum value of knapsack is 821504
+Took 4.699458 seconds
+
+
+--- Contents of slurm-221393.out ---
+Running knapsack_parallel with 4 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 1000: Iteration 1
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 4
+Granularity: 1000
+Running with granularities
+Maximum value of knapsack is 821504
+Took 2.787998 seconds
+
+
+--- Contents of slurm-221394.out ---
+Running knapsack_parallel with 4 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 1000: Iteration 2
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 4
+Granularity: 1000
+Running with granularities
+Maximum value of knapsack is 821504
+Took 2.698037 seconds
+
+
+--- Contents of slurm-221395.out ---
+Running knapsack_parallel with 4 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 1000: Iteration 3
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 4
+Granularity: 1000
+Running with granularities
+Maximum value of knapsack is 821504
+Took 2.754402 seconds
+
+
+--- Contents of slurm-221396.out ---
+Running knapsack_parallel with 8 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 0: Iteration 1
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 8
+Granularity: 0
+Running default 1
+Size of vectors is: 10001, 10001, 10001
+In thread 1 start_index=1251 and end_index=2501 it waited at wall for 3.2480 seconds
+Counterarr1: 33334
+Counterarr2: 33333
+Counterarr3: 33333
+In thread 0 start_index=0 and end_index=1251 it waited at wall for 3.2568 seconds
+In thread 7 start_index=8751 and end_index=10001 it waited at wall for 3.1851 seconds
+In thread 4 start_index=5001 and end_index=6251 it waited at wall for 3.0581 seconds
+In thread 2 start_index=2501 and end_index=3751 it waited at wall for 3.1240 seconds
+In thread 5 start_index=6251 and end_index=7501 it waited at wall for 3.0900 seconds
+In thread 3 start_index=3751 and end_index=5001 it waited at wall for 3.0634 seconds
+In thread 6 start_index=7501 and end_index=8751 it waited at wall for 3.1607 seconds
+Maximum value of knapsack is 821504
+Took 3.787963 seconds
+
+
+--- Contents of slurm-221397.out ---
+Running knapsack_parallel with 8 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 0: Iteration 2
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 8
+Granularity: 0
+Running default 1
+Size of vectors is: 10001, 10001, 10001
+In thread 2 start_index=2501 and end_index=3751 it waited at wall for 3.1100 seconds
+In thread 3 start_index=3751 and end_index=5001 it waited at wall for 3.0540 seconds
+In thread 5 start_index=6251 and end_index=7501 it waited at wall for 3.0951 seconds
+Counterarr1: 33334
+Counterarr2: 33333
+Counterarr3: 33333
+In thread 0 start_index=0 and end_index=1251 it waited at wall for 3.2828 seconds
+In thread 6 start_index=7501 and end_index=8751 it waited at wall for 3.1548 seconds
+In thread 7 start_index=8751 and end_index=10001 it waited at wall for 3.1931 seconds
+In thread 4 start_index=5001 and end_index=6251 it waited at wall for 3.0556 seconds
+In thread 1 start_index=1251 and end_index=2501 it waited at wall for 3.1528 seconds
+Maximum value of knapsack is 821504
+Took 3.769779 seconds
+
+
+--- Contents of slurm-221398.out ---
+Running knapsack_parallel with 8 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 0: Iteration 3
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 8
+Granularity: 0
+Running default 1
+Size of vectors is: 10001, 10001, 10001
+In thread 5 start_index=6251 and end_index=7501 it waited at wall for 3.0500 seconds
+In thread 1 start_index=1251 and end_index=2501 it waited at wall for 3.1198 seconds
+Counterarr1: 33334
+Counterarr2: 33333
+Counterarr3: 33333
+In thread 0 start_index=0 and end_index=1251 it waited at wall for 3.1902 seconds
+In thread 6 start_index=7501 and end_index=8751 it waited at wall for 3.0687 seconds
+In thread 3 start_index=3751 and end_index=5001 it waited at wall for 3.0015 seconds
+In thread 2 start_index=2501 and end_index=3751 it waited at wall for 3.0553 seconds
+In thread 4 start_index=5001 and end_index=6251 it waited at wall for 3.0138 seconds
+In thread 7 start_index=8751 and end_index=10001 it waited at wall for 3.1385 seconds
+Maximum value of knapsack is 821504
+Took 3.696271 seconds
+
+
+--- Contents of slurm-221399.out ---
+Running knapsack_parallel with 8 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 100: Iteration 1
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 8
+Granularity: 100
+Running with granularities
+Maximum value of knapsack is 821504
+Took 10.628102 seconds
+
+
+--- Contents of slurm-221400.out ---
+Running knapsack_parallel with 8 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 100: Iteration 2
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 8
+Granularity: 100
+Running with granularities
+Maximum value of knapsack is 821504
+Took 6.638951 seconds
+
+
+--- Contents of slurm-221401.out ---
+Running knapsack_parallel with 8 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 100: Iteration 3
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 8
+Granularity: 100
+Running with granularities
+Maximum value of knapsack is 821504
+Took 6.851467 seconds
+
+
+--- Contents of slurm-221402.out ---
+Running knapsack_parallel with 8 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 1000: Iteration 1
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 8
+Granularity: 1000
+Running with granularities
+Maximum value of knapsack is 821504
+Took 4.166133 seconds
+
+
+--- Contents of slurm-221403.out ---
+Running knapsack_parallel with 8 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 1000: Iteration 2
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 8
+Granularity: 1000
+Running with granularities
+Maximum value of knapsack is 821504
+Took 4.350769 seconds
+
+
+--- Contents of slurm-221404.out ---
+Running knapsack_parallel with 8 threads, input hundred_thousand_input.txt & capacity 10000 & granularity 1000: Iteration 3
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num threads: 8
+Granularity: 1000
+Running with granularities
+Maximum value of knapsack is 821504
+Took 4.344536 seconds
 
 --- Contents of slurm-221229.out ---
 Running knapsack_parallel with 2 threads, input hundred_thousand_input.txt & capacity 100000 & granularity 0: Iteration 1
