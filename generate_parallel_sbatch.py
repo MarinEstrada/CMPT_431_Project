@@ -13,8 +13,8 @@ os.makedirs(output_dir, exist_ok=True)
 
 sleep_time = 5 # make sleep time global var to change in one spot
 
-STUDENT_ID = "ama269"
-ASSIGNMENT_FOLDER = "wrk/school/CMPT_431_Project"
+STUDENT_ID = "jag18"
+ASSIGNMENT_FOLDER = "CMPT_431_Project"
 
 assert STUDENT_ID and ASSIGNMENT_FOLDER, "Please fill in the STUDENT_ID and ASSIGNMENT_FOLDER variables."
 
@@ -32,10 +32,10 @@ iterations = 3
 # input_files = ["--fName thousand_item_input.txt", "--fName hundred_thousand_item_input.txt", "--fName ten_million_item_input.txt"]
 input_files = ["--fName hundred_thousand_input.txt"]
 num_threads = [1, 2, 4, 8]
-capacities = ["--capacity 1000", "--capacity 100000", "--capacity 10000000"]
+capacities = ["--capacity 1000", "--capacity 100000", "--capacity 1000000"]
 granularities1 = ["--granularity 0", "--granularity 10", "--granularity 100"]
-granularities2 = ["--granularity 0", "--granularity 100", "--granularity 1000"]
-granularities3 = ["--granularity 0", "--granularity 1000", "--granularity 10000"]
+granularities2 = ["--granularity 0", "--granularity 100", "--granularity 10000"]
+granularities3 = ["--granularity 0", "--granularity 1000", "--granularity 100000"]
 # capacities = ["--capacity 1500"]
 
 max_jobs_per_batch = 4
