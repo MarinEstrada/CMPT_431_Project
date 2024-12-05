@@ -25,10 +25,10 @@ void knapSack(
     CustomBarrier &the_wall
 ) {
     uint initial_weight_range = thread_id * granularity;
+    // Counter to rotate what array is being used
     uint counter = 0;
     for (int i = 1; i < num_items + 1; i++) {
         while(true) {
-            //printf("Initial weight is %d\n", initial_weight_range);
             if (counter == 0) {
                 for (int w = initial_weight_range; (w < granularity + initial_weight_range && w <= arr2.size()); w++) {     
                     // Finding the maximum value
@@ -60,7 +60,7 @@ void knapSack(
                     }
                 }
             }
-            // Check if there are more 
+            // Check if there are more weights to be processed
             if (next_initial_weight_range.load() * granularity > total_capacity) {
                 // barrier
                 the_wall.wait();
@@ -84,6 +84,7 @@ void knapSack(
             counter = 0;
         }
     }
+    // Make sure that the final result is in arr1
     if (thread_id ==0) {
         if (counter == 1) {
             arr1[total_capacity] = arr2[total_capacity];
@@ -108,53 +109,52 @@ void knapSack_default(
 ) {
     timer t1;
     double total_time_waiting=0;
-
+    // Initialize counter to rotate the array being used
     uint counter = 0;
-    uint counterarr1 = 0;
-    uint counterarr2 = 0;
-    uint counterarr3 = 0;
     for (int i = 1; i < num_items + 1; i++) {
         if (counter == 0) {
             for (int w = initial_index; (w < end_index && w < arr2.size()); w++) {
+                // Finding the maximum value
+                // Check if capacity could hold weight of new item
                 if (w >= weights[i - 1]) {
-                    //printf("Comparing previous: %d with %d \nMax current of item %d in capacity %d is: %d\n", arr2[i - 1][w], arr2[i - 1][w - weights[i - 1]] + profits[i - 1], i, w, arr2[i][w]);
                     arr2[w] = std::max(arr1[w], arr1[w - weights[i - 1]] + profits[i - 1]);
                 } else {
                     arr2[w] = arr1[w];
                 }
             }
-            counterarr1++;
         } else if(counter == 1){
             for (int w = initial_index; (w < end_index && w < arr3.size()); w++) {
+                // Finding the maximum value
+                // Check if capacity could hold weight of new item
                 if (w >= weights[i - 1]) {
-                    //printf("Comparing previous: %d with %d \nMax current of item %d in capacity %d is: %d\n", arr2[i - 1][w], arr2[i - 1][w - weights[i - 1]] + profits[i - 1], i, w, arr2[i][w]);
                     arr3[w] = std::max(arr2[w], arr2[w - weights[i - 1]] + profits[i - 1]);
                 } else {
                     arr3[w] = arr2[w];
                 }
             }
-            counterarr2++;
         } else {
             for (int w = initial_index; (w < end_index && w < arr1.size()); w++) {
+                // Finding the maximum value
+                // Check if capacity could hold weight of new item
                 if (w >= weights[i - 1]) {
-                    //printf("Comparing previous: %d with %d \nMax current of item %d in capacity %d is: %d\n", arr2[i - 1][w], arr2[i - 1][w - weights[i - 1]] + profits[i - 1], i, w, arr2[i][w]);
                     arr1[w] = std::max(arr3[w], arr3[w - weights[i - 1]] + profits[i - 1]);
                 } else {
                     arr1[w] = arr3[w];
                 }
             }
-            counterarr3++;
         }
+        // Operate counter to know what arrays to use next
         counter++;
         if (counter > 2) {
             counter = 0;
         }
+        // Synchronize threads
         t1.start();
         the_wall.wait();
         total_time_waiting+=t1.stop();
     }
+    // Make sure that the final result is in arr1
     if (thread_id ==0) {
-        printf("Counterarr1: %u\nCounterarr2: %u\nCounterarr3: %u\n", counterarr1, counterarr2, counterarr3);
         if (counter == 1) {
             arr1[total_capacity] = arr2[total_capacity];
         } else if (counter == 2) {
