@@ -1,0 +1,510 @@
+--- Contents of slurm-219754.out ---
+Running knapsack_distributed with 1 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 1000: Iteration 1
+Starting knapsack problem
+Capacity: 1000
+Num Items: 100000
+Num proccesses: 1
+Process_rank, start_index, end_index, time_taken
+0, 0, 1000, 0.05282
+Total time taken: 0.053691 seconds
+Maximum value: 88832
+
+
+--- Contents of slurm-219755.out ---
+Running knapsack_distributed with 1 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 1000: Iteration 2
+Starting knapsack problem
+Capacity: 1000
+Num Items: 100000
+Num proccesses: 1
+Process_rank, start_index, end_index, time_taken
+0, 0, 1000, 0.052961
+Total time taken: 0.053799 seconds
+Maximum value: 88832
+
+
+--- Contents of slurm-219756.out ---
+Running knapsack_distributed with 1 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 1000: Iteration 3
+Starting knapsack problem
+Capacity: 1000
+Num Items: 100000
+Num proccesses: 1
+Process_rank, start_index, end_index, time_taken
+0, 0, 1000, 0.052423
+Total time taken: 0.053263 seconds
+Maximum value: 88832
+
+
+--- Contents of slurm-219757.out ---
+Running knapsack_distributed with 2 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 1000: Iteration 1
+Starting knapsack problem
+Capacity: 1000
+Num Items: 100000
+Num proccesses: 2
+Process_rank, start_index, end_index, time_taken
+0, 0, 500, 0.13245
+1, 501, 1000, 0.13253
+Total time taken: 0.13367 seconds
+Maximum value: 88832
+
+
+--- Contents of slurm-219758.out ---
+Running knapsack_distributed with 2 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 1000: Iteration 2
+Starting knapsack problem
+Capacity: 1000
+Num Items: 100000
+Num proccesses: 2
+Process_rank, start_index, end_index, time_taken
+0, 0, 500, 0.12481
+1, 501, 1000, 0.12478
+Total time taken: 0.13321 seconds
+Maximum value: 88832
+
+
+--- Contents of slurm-219759.out ---
+Running knapsack_distributed with 2 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 1000: Iteration 3
+Starting knapsack problem
+Capacity: 1000
+Num Items: 100000
+Num proccesses: 2
+Process_rank, start_index, end_index, time_taken
+0, 0, 500, 0.12561
+1, 501, 1000, 0.12564
+Total time taken: 0.12697 seconds
+Maximum value: 88832
+
+
+--- Contents of slurm-219760.out ---
+Running knapsack_distributed with 4 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 1000: Iteration 1
+Starting knapsack problem
+Capacity: 1000
+Num Items: 100000
+Num proccesses: 4
+Process_rank, start_index, end_index, time_taken
+0, 0, 250, 0.20229
+1, 251, 500, 0.20228
+2, 501, 750, 0.2023
+3, 751, 1000, 0.20242
+Total time taken: 0.20527 seconds
+Maximum value: 88832
+
+
+--- Contents of slurm-219761.out ---
+Running knapsack_distributed with 4 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 1000: Iteration 2
+Starting knapsack problem
+Capacity: 1000
+Num Items: 100000
+Num proccesses: 4
+Process_rank, start_index, end_index, time_taken
+0, 0, 250, 0.19443
+1, 251, 500, 0.19446
+2, 501, 750, 0.19446
+3, 751, 1000, 0.19449
+Total time taken: 0.19722 seconds
+Maximum value: 88832
+
+
+--- Contents of slurm-219762.out ---
+Running knapsack_distributed with 4 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 1000: Iteration 3
+Starting knapsack problem
+Capacity: 1000
+Num Items: 100000
+Num proccesses: 4
+Process_rank, start_index, end_index, time_taken
+0, 0, 250, 0.20851
+1, 251, 500, 0.20838
+2, 501, 750, 0.2084
+3, 751, 1000, 0.20839
+Total time taken: 0.2167 seconds
+Maximum value: 88832
+
+
+--- Contents of slurm-219763.out ---
+Running knapsack_distributed with 8 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 1000: Iteration 1
+Starting knapsack problem
+Capacity: 1000
+Num Items: 100000
+Num proccesses: 8
+Process_rank, start_index, end_index, time_taken
+0, 0, 125, 0.29102
+1, 126, 250, 0.29137
+2, 251, 375, 0.2911
+3, 376, 500, 0.29134
+4, 501, 625, 0.29102
+5, 626, 750, 0.29099
+6, 751, 875, 0.29099
+7, 876, 1000, 0.29103
+Total time taken: 0.30009 seconds
+Maximum value: 88832
+
+
+--- Contents of slurm-219764.out ---
+Running knapsack_distributed with 8 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 1000: Iteration 2
+Starting knapsack problem
+Capacity: 1000
+Num Items: 100000
+Num proccesses: 8
+Process_rank, start_index, end_index, time_taken
+0, 0, 125, 0.28999
+1, 126, 250, 0.29034
+2, 251, 375, 0.29002
+3, 376, 500, 0.29032
+4, 501, 625, 0.29004
+5, 626, 750, 0.28996
+6, 751, 875, 0.28998
+7, 876, 1000, 0.28998
+Total time taken: 0.29854 seconds
+Maximum value: 88832
+
+
+--- Contents of slurm-219765.out ---
+Running knapsack_distributed with 8 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 1000: Iteration 3
+Starting knapsack problem
+Capacity: 1000
+Num Items: 100000
+Num proccesses: 8
+Process_rank, start_index, end_index, time_taken
+0, 0, 125, 0.29116
+1, 126, 250, 0.29158
+2, 251, 375, 0.29117
+3, 376, 500, 0.29154
+4, 501, 625, 0.29122
+5, 626, 750, 0.2912
+6, 751, 875, 0.29116
+7, 876, 1000, 0.29121
+Total time taken: 0.30396 seconds
+Maximum value: 88832
+
+
+--- Contents of slurm-219766.out ---
+Running knapsack_distributed with 1 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 100000: Iteration 1
+Starting knapsack problem
+Capacity: 100000
+Num Items: 100000
+Num proccesses: 1
+Process_rank, start_index, end_index, time_taken
+0, 0, 100000, 38.838
+Total time taken: 38.839 seconds
+Maximum value: 5726685
+
+
+--- Contents of slurm-219767.out ---
+Running knapsack_distributed with 1 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 100000: Iteration 2
+Starting knapsack problem
+Capacity: 100000
+Num Items: 100000
+Num proccesses: 1
+Process_rank, start_index, end_index, time_taken
+0, 0, 100000, 38.827
+Total time taken: 38.828 seconds
+Maximum value: 5726685
+
+
+--- Contents of slurm-219768.out ---
+Running knapsack_distributed with 1 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 100000: Iteration 3
+Starting knapsack problem
+Capacity: 100000
+Num Items: 100000
+Num proccesses: 1
+Process_rank, start_index, end_index, time_taken
+0, 0, 100000, 38.82
+Total time taken: 38.821 seconds
+Maximum value: 5726685
+
+
+--- Contents of slurm-219769.out ---
+Running knapsack_distributed with 2 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 100000: Iteration 1
+Starting knapsack problem
+Capacity: 100000
+Num Items: 100000
+Num proccesses: 2
+Process_rank, start_index, end_index, time_taken
+0, 0, 50000, 21.236
+1, 50001, 100000, 21.236
+Total time taken: 21.238 seconds
+Maximum value: 5726685
+
+
+--- Contents of slurm-219771.out ---
+Running knapsack_distributed with 2 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 100000: Iteration 2
+Starting knapsack problem
+Capacity: 100000
+Num Items: 100000
+Num proccesses: 2
+Process_rank, start_index, end_index, time_taken
+0, 0, 50000, 22.155
+1, 50001, 100000, 22.155
+Total time taken: 22.156 seconds
+Maximum value: 5726685
+
+
+--- Contents of slurm-219772.out ---
+Running knapsack_distributed with 2 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 100000: Iteration 3
+Starting knapsack problem
+Capacity: 100000
+Num Items: 100000
+Num proccesses: 2
+Process_rank, start_index, end_index, time_taken
+0, 0, 50000, 22.094
+1, 50001, 100000, 22.094
+Total time taken: 22.096 seconds
+Maximum value: 5726685
+
+
+--- Contents of slurm-219773.out ---
+Running knapsack_distributed with 4 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 100000: Iteration 1
+Starting knapsack problem
+Capacity: 100000
+Num Items: 100000
+Num proccesses: 4
+Process_rank, start_index, end_index, time_taken
+0, 0, 25000, 11.703
+1, 25001, 50000, 11.703
+2, 50001, 75000, 11.703
+3, 75001, 100000, 11.703
+Total time taken: 11.708 seconds
+Maximum value: 5726685
+
+
+--- Contents of slurm-219777.out ---
+Running knapsack_distributed with 4 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 100000: Iteration 2
+Starting knapsack problem
+Capacity: 100000
+Num Items: 100000
+Num proccesses: 4
+Process_rank, start_index, end_index, time_taken
+0, 0, 25000, 11.773
+1, 25001, 50000, 11.773
+2, 50001, 75000, 11.773
+3, 75001, 100000, 11.773
+Total time taken: 11.775 seconds
+Maximum value: 5726685
+
+
+--- Contents of slurm-219778.out ---
+Running knapsack_distributed with 4 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 100000: Iteration 3
+Starting knapsack problem
+Capacity: 100000
+Num Items: 100000
+Num proccesses: 4
+Process_rank, start_index, end_index, time_taken
+0, 0, 25000, 12.315
+1, 25001, 50000, 12.315
+2, 50001, 75000, 12.315
+3, 75001, 100000, 12.315
+Total time taken: 12.32 seconds
+Maximum value: 5726685
+
+
+--- Contents of slurm-219779.out ---
+Running knapsack_distributed with 8 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 100000: Iteration 1
+Starting knapsack problem
+Capacity: 100000
+Num Items: 100000
+Num proccesses: 8
+Process_rank, start_index, end_index, time_taken
+0, 0, 12500, 8.2045
+1, 12501, 25000, 8.2038
+2, 25001, 37500, 8.2045
+3, 37501, 50000, 8.2039
+4, 50001, 62500, 8.2039
+5, 62501, 75000, 8.2038
+6, 75001, 87500, 8.2038
+7, 87501, 100000, 8.2039
+Total time taken: 8.2115 seconds
+Maximum value: 5726685
+
+
+--- Contents of slurm-219780.out ---
+Running knapsack_distributed with 8 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 100000: Iteration 2
+Starting knapsack problem
+Capacity: 100000
+Num Items: 100000
+Num proccesses: 8
+Process_rank, start_index, end_index, time_taken
+0, 0, 12500, 8.1398
+1, 12501, 25000, 8.1392
+2, 25001, 37500, 8.1398
+3, 37501, 50000, 8.1393
+4, 50001, 62500, 8.1392
+5, 62501, 75000, 8.1392
+6, 75001, 87500, 8.1393
+7, 87501, 100000, 8.1392
+Total time taken: 8.1498 seconds
+Maximum value: 5726685
+
+
+--- Contents of slurm-219781.out ---
+Running knapsack_distributed with 8 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 100000: Iteration 3
+Starting knapsack problem
+Capacity: 100000
+Num Items: 100000
+Num proccesses: 8
+Process_rank, start_index, end_index, time_taken
+0, 0, 12500, 8.1155
+1, 12501, 25000, 8.1149
+2, 25001, 37500, 8.1155
+3, 37501, 50000, 8.1149
+4, 50001, 62500, 8.1149
+5, 62501, 75000, 8.1149
+6, 75001, 87500, 8.1149
+7, 87501, 100000, 8.1149
+Total time taken: 8.1206 seconds
+Maximum value: 5726685
+
+
+--- Contents of slurm-219782.out ---
+Running knapsack_distributed with 1 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 10000000: Iteration 1
+Starting knapsack problem
+Capacity: 10000000
+Num Items: 100000
+Num proccesses: 1
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd-cs-cloud-02: error: *** STEP 219782.0 ON cs-cloud-02 CANCELLED AT 2024-12-04T18:43:10 DUE TO TIME LIMIT ***
+slurmstepd-cs-cloud-02: error: *** JOB 219782 ON cs-cloud-02 CANCELLED AT 2024-12-04T18:43:10 DUE TO TIME LIMIT ***
+srun: forcing job termination
+srun: got SIGCONT
+
+
+--- Contents of slurm-219783.out ---
+Running knapsack_distributed with 1 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 10000000: Iteration 2
+Starting knapsack problem
+Capacity: 10000000
+Num Items: 100000
+Num proccesses: 1
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd-cs-cloud-02: error: *** JOB 219783 ON cs-cloud-02 CANCELLED AT 2024-12-04T18:43:10 DUE TO TIME LIMIT ***
+slurmstepd-cs-cloud-02: error: *** STEP 219783.0 ON cs-cloud-02 CANCELLED AT 2024-12-04T18:43:10 DUE TO TIME LIMIT ***
+srun: forcing job termination
+srun: got SIGCONT
+
+
+--- Contents of slurm-219784.out ---
+Running knapsack_distributed with 1 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 10000000: Iteration 3
+Starting knapsack problem
+Capacity: 10000000
+Num Items: 100000
+Num proccesses: 1
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd-cs-cloud-02: error: *** JOB 219784 ON cs-cloud-02 CANCELLED AT 2024-12-04T18:43:10 DUE TO TIME LIMIT ***
+slurmstepd-cs-cloud-02: error: *** STEP 219784.0 ON cs-cloud-02 CANCELLED AT 2024-12-04T18:43:10 DUE TO TIME LIMIT ***
+srun: forcing job termination
+srun: got SIGCONT
+
+
+--- Contents of slurm-219785.out ---
+Running knapsack_distributed with 2 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 10000000: Iteration 1
+Starting knapsack problem
+Capacity: 10000000
+Num Items: 100000
+Num proccesses: 2
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd-cs-cloud-02: error: *** JOB 219785 ON cs-cloud-02 CANCELLED AT 2024-12-04T18:43:10 DUE TO TIME LIMIT ***
+slurmstepd-cs-cloud-02: error: *** STEP 219785.0 ON cs-cloud-02 CANCELLED AT 2024-12-04T18:43:10 DUE TO TIME LIMIT ***
+srun: forcing job termination
+srun: got SIGCONT
+
+
+--- Contents of slurm-219797.out ---
+Running knapsack_distributed with 2 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 10000000: Iteration 2
+Starting knapsack problem
+Capacity: 10000000
+Num Items: 100000
+Num proccesses: 2
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd-cs-cloud-02: error: *** STEP 219797.0 ON cs-cloud-02 CANCELLED AT 2024-12-04T18:53:40 DUE TO TIME LIMIT ***
+slurmstepd-cs-cloud-02: error: *** JOB 219797 ON cs-cloud-02 CANCELLED AT 2024-12-04T18:53:40 DUE TO TIME LIMIT ***
+srun: forcing job termination
+srun: got SIGCONT
+
+
+--- Contents of slurm-219798.out ---
+Running knapsack_distributed with 2 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 10000000: Iteration 3
+Starting knapsack problem
+Capacity: 10000000
+Num Items: 100000
+Num proccesses: 2
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd-cs-cloud-02: error: *** STEP 219798.0 ON cs-cloud-02 CANCELLED AT 2024-12-04T18:53:40 DUE TO TIME LIMIT ***
+slurmstepd-cs-cloud-02: error: *** JOB 219798 ON cs-cloud-02 CANCELLED AT 2024-12-04T18:53:40 DUE TO TIME LIMIT ***
+srun: forcing job termination
+srun: got SIGCONT
+
+
+--- Contents of slurm-219799.out ---
+Running knapsack_distributed with 4 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 10000000: Iteration 1
+Starting knapsack problem
+Capacity: 10000000
+Num Items: 100000
+Num proccesses: 4
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd-cs-cloud-02: error: *** STEP 219799.0 ON cs-cloud-02 CANCELLED AT 2024-12-04T18:53:40 DUE TO TIME LIMIT ***
+slurmstepd-cs-cloud-02: error: *** JOB 219799 ON cs-cloud-02 CANCELLED AT 2024-12-04T18:53:40 DUE TO TIME LIMIT ***
+srun: forcing job termination
+srun: got SIGCONT
+
+
+--- Contents of slurm-219833.out ---
+Running knapsack_distributed with 4 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 10000000: Iteration 2
+Starting knapsack problem
+Capacity: 10000000
+Num Items: 100000
+Num proccesses: 4
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd-cs-cloud-01: error: *** JOB 219833 ON cs-cloud-01 CANCELLED AT 2024-12-04T19:04:11 DUE TO TIME LIMIT ***
+slurmstepd-cs-cloud-01: error: *** STEP 219833.0 ON cs-cloud-01 CANCELLED AT 2024-12-04T19:04:11 DUE TO TIME LIMIT ***
+srun: got SIGCONT
+srun: forcing job termination
+
+
+--- Contents of slurm-219834.out ---
+Running knapsack_distributed with 4 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 10000000: Iteration 3
+Starting knapsack problem
+Capacity: 10000000
+Num Items: 100000
+Num proccesses: 4
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd-cs-cloud-01: error: *** JOB 219834 ON cs-cloud-01 CANCELLED AT 2024-12-04T19:04:11 DUE TO TIME LIMIT ***
+slurmstepd-cs-cloud-01: error: *** STEP 219834.0 ON cs-cloud-01 CANCELLED AT 2024-12-04T19:04:11 DUE TO TIME LIMIT ***
+srun: got SIGCONT
+srun: forcing job termination
+
+
+--- Contents of slurm-219852.out ---
+Running knapsack_distributed with 8 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 10000000: Iteration 1
+Starting knapsack problem
+Capacity: 10000000
+Num Items: 100000
+Num proccesses: 8
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd-cs-cloud-01: error: *** JOB 219852 ON cs-cloud-01 CANCELLED AT 2024-12-04T19:14:41 DUE TO TIME LIMIT ***
+slurmstepd-cs-cloud-01: error: *** STEP 219852.0 ON cs-cloud-01 CANCELLED AT 2024-12-04T19:14:41 DUE TO TIME LIMIT ***
+srun: got SIGCONT
+srun: forcing job termination
+
+
+--- Contents of slurm-219918.out ---
+Running knapsack_distributed with 8 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 10000000: Iteration 2
+Starting knapsack problem
+Capacity: 10000000
+Num Items: 100000
+Num proccesses: 8
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd-cs-cloud-02: error: *** JOB 219918 ON cs-cloud-02 CANCELLED AT 2024-12-04T19:25:11 DUE TO TIME LIMIT ***
+slurmstepd-cs-cloud-02: error: *** STEP 219918.0 ON cs-cloud-02 CANCELLED AT 2024-12-04T19:25:11 DUE TO TIME LIMIT ***
+srun: forcing job termination
+srun: got SIGCONT
+
+
+--- Contents of slurm-219979.out ---
+Running knapsack_distributed with 8 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 10000000: Iteration 3
+Starting knapsack problem
+Capacity: 10000000
+Num Items: 100000
+Num proccesses: 8
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd-cs-cloud-02: error: *** JOB 219979 ON cs-cloud-02 CANCELLED AT 2024-12-04T19:35:41 DUE TO TIME LIMIT ***
+slurmstepd-cs-cloud-02: error: *** STEP 219979.0 ON cs-cloud-02 CANCELLED AT 2024-12-04T19:35:41 DUE TO TIME LIMIT ***
+srun: forcing job termination
+srun: got SIGCONT
+
+
