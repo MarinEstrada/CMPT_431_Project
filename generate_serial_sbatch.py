@@ -13,29 +13,26 @@ os.makedirs(output_dir, exist_ok=True)
 
 sleep_time = 5 # make sleep time global var to change in one spot
 
-STUDENT_ID = "jag18"
+STUDENT_ID = "rka120"
 ASSIGNMENT_FOLDER = "CMPT_431_Project"
 
 assert STUDENT_ID and ASSIGNMENT_FOLDER, "Please fill in the STUDENT_ID and ASSIGNMENT_FOLDER variables."
 
 commands = [
-    f"/home/{STUDENT_ID}/{ASSIGNMENT_FOLDER}/knapsack_parallel",
+    f"/home/{STUDENT_ID}/{ASSIGNMENT_FOLDER}/knapsack_serial",
 ]
 
 # chmod the commands
 for command in commands:
     subprocess.run(["chmod", "u+x", command], check=True)
 
+mpi_processes = [1]
 nodes = [1]
 iterations = 3
 
 # input_files = ["--fName thousand_item_input.txt", "--fName hundred_thousand_item_input.txt", "--fName ten_million_item_input.txt"]
 input_files = ["--fName hundred_thousand_input.txt"]
-num_threads = [1, 2, 4, 8]
 capacities = ["--capacity 1000", "--capacity 100000", "--capacity 1000000"]
-granularities1 = ["--granularity 0", "--granularity 10", "--granularity 100"]
-granularities2 = ["--granularity 0", "--granularity 100", "--granularity 10000"]
-granularities3 = ["--granularity 0", "--granularity 1000", "--granularity 100000"]
 # capacities = ["--capacity 1500"]
 
 max_jobs_per_batch = 4
@@ -44,14 +41,16 @@ max_total_cpus = 8
 output_dir = "sbatch_files"
 os.makedirs(output_dir, exist_ok=True)
 
-def generate_sbatch_content(program, num_threads, iteration, params, gran, cap, input_file):
+def generate_sbatch_content(program, num_processes, num_nodes, iteration, params):
     return f"""#!/bin/bash
-#SBATCH --cpus-per-task={num_threads}
+#SBATCH --nodes={num_nodes}
+#SBATCH --ntasks={num_processes}
+#SBATCH --cpus-per-task=1
 #SBATCH --time=10:00
 #SBATCH --mem=5G
 #SBATCH --partition=slow
 
-echo "Running {program.split('/')[-1]} with {num_threads} threads, input {input_file.split(' ')[-1]} & capacity {cap.split(' ')[-1]} & granularity {gran.split(' ')[-1]}: Iteration {iteration}"
+echo "Running {program.split('/')[-1]} with {num_processes} MPI processes on {num_nodes} nodes, input {input_file.split(' ')[-1]} & capacity {cap.split(' ')[-1]}: Iteration {iteration}"
 srun {program} {params}
 """
 
@@ -62,30 +61,28 @@ for program in commands:
 
     for input_file in input_files:
         for cap in capacities:
-            for threads in num_threads:
-                granularities = granularities1
-                if cap == "--capacity 100000":
-                    granularities = granularities2
-                elif cap == "--capacity 10000000":
-                    granularities = granularities3
-                for gran in granularities:
-                    params = f"{input_file} {cap} --numThreads={threads} {gran}"
+            params = f"{input_file} {cap}"
             
     # params = curve_area_params if "curve_area" in program_name else heat_transfer_params
+    
+            for num_processes in mpi_processes:
+                for num_nodes in nodes:
+                    # Skip invalid combinations
+                    if num_processes < num_nodes:
+                        continue
                     
                     for iteration in range(1, iterations + 1):
-                        filename = f"test_{program_name}_n{threads}_iter{iteration}_cap{cap}_gran{gran}.sbatch"
+                        filename = f"test_{program_name}_n{num_processes}_nodes{num_nodes}_iter{iteration}_{cap}.sbatch"
                         filepath = os.path.join(output_dir, filename)
-                        
                         sbatch_content = generate_sbatch_content(
-                            program, threads, iteration, params, gran, cap, input_file
+                            program, num_processes, num_nodes, iteration, params
                         )
                         
                         with open(filepath, 'w') as sbatch_file:
                             sbatch_file.write(sbatch_content)
                         
                         sbatch_files.append(filepath)
-                        cpu_requests.append(threads)
+                        cpu_requests.append(num_processes)
 
 print(f"Generated {len(sbatch_files)} sbatch files in directory: {output_dir}")
 
@@ -130,7 +127,7 @@ while i < len(sbatch_files):
 
     print("No jobs left. Proceeding to the next batch.")
 
-def combine_slurm_outputs(output_filename="parallel_combined_output.txt"):
+def combine_slurm_outputs(output_filename="serial_combined_output.txt"):
     # Get all slurm output files (slurm-*.out)
     slurm_files = glob.glob("slurm-*.out")
     
@@ -150,4 +147,4 @@ def combine_slurm_outputs(output_filename="parallel_combined_output.txt"):
     print(f"Combined all slurm output files into {output_filename}")
 
 
-combine_slurm_outputs("parallel_combined_output.txt")
+combine_slurm_outputs("serial_combined_output.txt")
