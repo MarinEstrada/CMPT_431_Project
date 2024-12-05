@@ -85,12 +85,31 @@ Change `fName` to change the name of your new input file.
 ## File Structure:
 ```
 CMPT_431_Project
+├── Makefile
 ├── README.md
-└── core
-    ├── cxxopts.h
-    ├── get_time.h
-    ├── types.h
-    └── utils.h
+├── a3_report.ipynb
+├── core
+│   ├── cxxopts.h
+│   ├── get_time.h
+│   ├── types.h
+│   └── utils.h
+├── create_file.cpp
+├── final_distributed_combined_output.txt
+├── generate_distributed_sbatch.py
+├── generate_parallel_sbatch.py
+├── generate_serial_sbatch.py
+├── hundred_thousand_input.txt
+├── knapsack_distributed.cpp
+├── knapsack_parallel.cpp
+├── knapsack_parallel.h
+├── knapsack_serial.cpp
+├── knapsack_serial.h
+├── read_file.cpp
+├── report.ipynb
+├── serial_combined_output.txt
+├── slurm_distributed.sh
+├── slurm_parallel.sh
+└── slurm_serial.sh
 ```
 ### Programs:
 ## Results
