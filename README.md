@@ -104,7 +104,6 @@ CMPT_431_Project
 ├── knapsack_parallel.h
 ├── knapsack_serial.cpp
 ├── knapsack_serial.h
-├── read_file.cpp
 ├── report.ipynb
 ├── serial_combined_output.txt
 ├── slurm_distributed.sh

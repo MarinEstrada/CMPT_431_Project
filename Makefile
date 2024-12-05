@@ -9,7 +9,7 @@ MPICXX = mpic++
 CXXFLAGS = -std=c++14 -O3 $(MACRO)
 
 COMMON= core/utils.h core/cxxopts.h core/get_time.h 
-SERIAL= knapsack_serial create_file read_file
+SERIAL= knapsack_serial create_file
 PARALLEL= knapsack_parallel
 DISTRIBUTED= knapsack_distributed
 ALL= $(SERIAL) $(PARALLEL) $(DISTRIBUTED)
