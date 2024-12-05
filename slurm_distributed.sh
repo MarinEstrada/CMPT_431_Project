@@ -8,4 +8,4 @@
 #SBATCH --partition=slow
 
 
-srun ./knapsack_serial --fName hundred_thousand_input.txt --capacity 1000000
+srun ./knapsack_serial --fName hundred_thousand_input.txt --capacity 100000
