@@ -44,14 +44,14 @@ max_total_cpus = 8
 output_dir = "sbatch_files"
 os.makedirs(output_dir, exist_ok=True)
 
-def generate_sbatch_content(program, num_threads, iteration, params):
+def generate_sbatch_content(program, num_threads, iteration, params, gran, cap, input_file):
     return f"""#!/bin/bash
 #SBATCH --cpus-per-task={num_threads}
 #SBATCH --time=10:00
 #SBATCH --mem=5G
 #SBATCH --partition=slow
 
-echo "Running {program.split('/')[-1]} with {num_threads} threads, input {input_file.split(' ')[-1]} & capacity {cap.split(' ')[-1]}: Iteration {iteration}"
+echo "Running {program.split('/')[-1]} with {num_threads} threads, input {input_file.split(' ')[-1]} & capacity {cap.split(' ')[-1]} & granularity {gran.split(' ')[-1]}: Iteration {iteration}"
 srun {program} {params}
 """
 
@@ -78,7 +78,7 @@ for program in commands:
                         filepath = os.path.join(output_dir, filename)
                         
                         sbatch_content = generate_sbatch_content(
-                            program, threads, iteration, params
+                            program, threads, iteration, params, gran, cap, input_file
                         )
                         
                         with open(filepath, 'w') as sbatch_file:
