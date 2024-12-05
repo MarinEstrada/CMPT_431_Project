@@ -96,10 +96,9 @@ make clean
 
 ## File Structure:
 ```
-CMPT_431_Project
+├── 431_Project_report.pdf
 ├── Makefile
 ├── README.md
-├── a3_report.ipynb
 ├── core
 │   ├── cxxopts.h
 │   ├── get_time.h
@@ -107,6 +106,7 @@ CMPT_431_Project
 │   └── utils.h
 ├── create_file.cpp
 ├── final_distributed_combined_output.txt
+├── final_parallel_combined_output.txt
 ├── generate_distributed_sbatch.py
 ├── generate_parallel_sbatch.py
 ├── generate_serial_sbatch.py
@@ -114,14 +114,25 @@ CMPT_431_Project
 ├── knapsack_distributed.cpp
 ├── knapsack_parallel.cpp
 ├── knapsack_serial.cpp
-├── report.ipynb
 ├── serial_combined_output.txt
 ├── slurm_distributed.sh
 ├── slurm_parallel.sh
 └── slurm_serial.sh
 ```
+
 ### Programs:
-## Results
+| Program/Script name | README |
+| ------ | ------ |
+| knapsack_serial.cpp | Serial implementation |
+| knapsack_parallel.cpp | Thread implementation |
+| knapsack_distributed.cpp | Distributed implementation |
+| create_file.cpp | program to create inputs |
+| generate_serial_sbatch.py | Script to run serial tests on Slurm |
+| generate_parallel_sbatch.py | Script to run thread tests on Slurm |
+| generate_distributed_sbatch.py | Script to run distributed tests on Slurm |
+| slurm_serial.sh | Script to run single serial test on Slurm |
+| slurm_parallel.sh | Script to run single thread test on Slurm |
+| slurm_distributed.sh | Script to run single distributed test on Slurm |
 
 ## Code References
 | File/Folder | README |
