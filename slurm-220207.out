@@ -1,0 +1,11 @@
+Running knapsack_parallel with 1 threads, input hundred_thousand_input.txt & capacity 1000000 & granularity 100: Iteration 1
+Starting knapsack problem
+Capacity: 1000000
+Num Items: 100000
+Num threads: 1
+Granularity: 100
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd-cs-cloud-01: error: *** JOB 220207 ON cs-cloud-01 CANCELLED AT 2024-12-04T20:42:15 DUE TO TIME LIMIT ***
+slurmstepd-cs-cloud-01: error: *** STEP 220207.0 ON cs-cloud-01 CANCELLED AT 2024-12-04T20:42:15 DUE TO TIME LIMIT ***
+srun: got SIGCONT
+srun: forcing job termination

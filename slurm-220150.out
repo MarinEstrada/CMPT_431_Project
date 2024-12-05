@@ -1,0 +1,8 @@
+Running knapsack_parallel with 4 threads, input hundred_thousand_input.txt & capacity 100000 & granularity 10000: Iteration 1
+Starting knapsack problem
+Capacity: 100000
+Num Items: 100000
+Num threads: 4
+Granularity: 10000
+Maximum value of knapsack is 5726685
+Took 40.997231 seconds
