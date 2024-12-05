@@ -1,39 +1,3 @@
---- Contents of slurm-219754.out ---
-Running knapsack_distributed with 1 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 1000: Iteration 1
-Starting knapsack problem
-Capacity: 1000
-Num Items: 100000
-Num proccesses: 1
-Process_rank, start_index, end_index, time_taken
-0, 0, 1000, 0.05282
-Total time taken: 0.053691 seconds
-Maximum value: 88832
-
-
---- Contents of slurm-219755.out ---
-Running knapsack_distributed with 1 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 1000: Iteration 2
-Starting knapsack problem
-Capacity: 1000
-Num Items: 100000
-Num proccesses: 1
-Process_rank, start_index, end_index, time_taken
-0, 0, 1000, 0.052961
-Total time taken: 0.053799 seconds
-Maximum value: 88832
-
-
---- Contents of slurm-219756.out ---
-Running knapsack_distributed with 1 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 1000: Iteration 3
-Starting knapsack problem
-Capacity: 1000
-Num Items: 100000
-Num proccesses: 1
-Process_rank, start_index, end_index, time_taken
-0, 0, 1000, 0.052423
-Total time taken: 0.053263 seconds
-Maximum value: 88832
-
-
 --- Contents of slurm-219757.out ---
 Running knapsack_distributed with 2 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 1000: Iteration 1
 Starting knapsack problem
@@ -175,40 +139,145 @@ Total time taken: 0.30396 seconds
 Maximum value: 88832
 
 
---- Contents of slurm-219766.out ---
-Running knapsack_distributed with 1 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 100000: Iteration 1
+--- Contents of slurm-220500.out ---
+Running knapsack_distributed with 2 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 10000: Iteration 1
 Starting knapsack problem
-Capacity: 100000
+Capacity: 10000
 Num Items: 100000
-Num proccesses: 1
+Num proccesses: 2
 Process_rank, start_index, end_index, time_taken
-0, 0, 100000, 38.838
-Total time taken: 38.839 seconds
-Maximum value: 5726685
+0, 0, 5000, 1.9309
+1, 5001, 10000, 1.9309
+Total time taken: 1.9327 seconds
+Maximum value: 821504
 
 
---- Contents of slurm-219767.out ---
-Running knapsack_distributed with 1 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 100000: Iteration 2
+--- Contents of slurm-220501.out ---
+Running knapsack_distributed with 2 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 10000: Iteration 2
 Starting knapsack problem
-Capacity: 100000
+Capacity: 10000
 Num Items: 100000
-Num proccesses: 1
+Num proccesses: 2
 Process_rank, start_index, end_index, time_taken
-0, 0, 100000, 38.827
-Total time taken: 38.828 seconds
-Maximum value: 5726685
+0, 0, 5000, 1.9199
+1, 5001, 10000, 1.9199
+Total time taken: 1.9226 seconds
+Maximum value: 821504
 
 
---- Contents of slurm-219768.out ---
-Running knapsack_distributed with 1 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 100000: Iteration 3
+--- Contents of slurm-220502.out ---
+Running knapsack_distributed with 2 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 10000: Iteration 3
 Starting knapsack problem
-Capacity: 100000
+Capacity: 10000
 Num Items: 100000
-Num proccesses: 1
+Num proccesses: 2
 Process_rank, start_index, end_index, time_taken
-0, 0, 100000, 38.82
-Total time taken: 38.821 seconds
-Maximum value: 5726685
+0, 0, 5000, 1.9148
+1, 5001, 10000, 1.9148
+Total time taken: 1.9158 seconds
+Maximum value: 821504
+
+
+--- Contents of slurm-220503.out ---
+Running knapsack_distributed with 4 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 10000: Iteration 1
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num proccesses: 4
+Process_rank, start_index, end_index, time_taken
+0, 0, 2500, 1.1195
+1, 2501, 5000, 1.1195
+2, 5001, 7500, 1.1195
+3, 7501, 10000, 1.1196
+Total time taken: 1.1215 seconds
+Maximum value: 821504
+
+
+--- Contents of slurm-220504.out ---
+Running knapsack_distributed with 4 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 10000: Iteration 2
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num proccesses: 4
+Process_rank, start_index, end_index, time_taken
+0, 0, 2500, 1.1061
+1, 2501, 5000, 1.1061
+2, 5001, 7500, 1.1061
+3, 7501, 10000, 1.1061
+Total time taken: 1.1086 seconds
+Maximum value: 821504
+
+
+--- Contents of slurm-220505.out ---
+Running knapsack_distributed with 4 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 10000: Iteration 3
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num proccesses: 4
+Process_rank, start_index, end_index, time_taken
+0, 0, 2500, 1.1144
+1, 2501, 5000, 1.1145
+2, 5001, 7500, 1.1144
+3, 7501, 10000, 1.1144
+Total time taken: 1.118 seconds
+Maximum value: 821504
+
+
+--- Contents of slurm-220506.out ---
+Running knapsack_distributed with 8 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 10000: Iteration 1
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num proccesses: 8
+Process_rank, start_index, end_index, time_taken
+0, 0, 1250, 0.79936
+1, 1251, 2500, 0.79987
+2, 2501, 3750, 0.79946
+3, 3751, 5000, 0.79985
+4, 5001, 6250, 0.79944
+5, 6251, 7500, 0.79937
+6, 7501, 8750, 0.79939
+7, 8751, 10000, 0.79938
+Total time taken: 0.80659 seconds
+Maximum value: 821504
+
+
+--- Contents of slurm-220507.out ---
+Running knapsack_distributed with 8 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 10000: Iteration 2
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num proccesses: 8
+Process_rank, start_index, end_index, time_taken
+0, 0, 1250, 0.80039
+1, 1251, 2500, 0.80082
+2, 2501, 3750, 0.80034
+3, 3751, 5000, 0.80084
+4, 5001, 6250, 0.80043
+5, 6251, 7500, 0.80034
+6, 7501, 8750, 0.80037
+7, 8751, 10000, 0.80031
+Total time taken: 0.81056 seconds
+Maximum value: 821504
+
+
+--- Contents of slurm-220508.out ---
+Running knapsack_distributed with 8 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 10000: Iteration 3
+Starting knapsack problem
+Capacity: 10000
+Num Items: 100000
+Num proccesses: 8
+Process_rank, start_index, end_index, time_taken
+0, 0, 1250, 0.79447
+1, 1251, 2500, 0.79495
+2, 2501, 3750, 0.79449
+3, 3751, 5000, 0.79494
+4, 5001, 6250, 0.79447
+5, 6251, 7500, 0.79454
+6, 7501, 8750, 0.79449
+7, 8751, 10000, 0.79454
+Total time taken: 0.80165 seconds
+Maximum value: 821504
 
 
 --- Contents of slurm-219769.out ---
@@ -350,42 +419,6 @@ Process_rank, start_index, end_index, time_taken
 7, 87501, 100000, 8.1149
 Total time taken: 8.1206 seconds
 Maximum value: 5726685
-
-
---- Contents of slurm-220002.out ---
-Running knapsack_distributed with 1 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 1000000: Iteration 1
-Starting knapsack problem
-Capacity: 1000000
-Num Items: 100000
-Num proccesses: 1
-Process_rank, start_index, end_index, time_taken
-0, 0, 1000000, 615.98
-Total time taken: 615.99 seconds
-Maximum value: 28264125
-
-
---- Contents of slurm-220003.out ---
-Running knapsack_distributed with 1 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 1000000: Iteration 2
-Starting knapsack problem
-Capacity: 1000000
-Num Items: 100000
-Num proccesses: 1
-Process_rank, start_index, end_index, time_taken
-0, 0, 1000000, 619.24
-Total time taken: 619.24 seconds
-Maximum value: 28264125
-
-
---- Contents of slurm-220004.out ---
-Running knapsack_distributed with 1 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 1000000: Iteration 3
-Starting knapsack problem
-Capacity: 1000000
-Num Items: 100000
-Num proccesses: 1
-Process_rank, start_index, end_index, time_taken
-0, 0, 1000000, 619.98
-Total time taken: 619.99 seconds
-Maximum value: 28264125
 
 
 --- Contents of slurm-220005.out ---
