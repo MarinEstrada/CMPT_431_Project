@@ -30,9 +30,10 @@ mpi_processes = [1, 2, 4, 8]
 nodes = [1]
 iterations = 3
 
-input_files = ["--fName thousand_item_input.txt", "--fName hundred_thousand_item_input.txt", "--fName ten_million_item_input.txt"]
-# capacities = ["--capacity 103", "--capacity 1576", "--capacity 13892"]
-capacities = ["--capacity 1500"]
+# input_files = ["--fName thousand_item_input.txt", "--fName hundred_thousand_item_input.txt", "--fName ten_million_item_input.txt"]
+input_files = ["--fName hundred_thousand_input.txt"]
+capacities = ["--capacity 1000", "--capacity 100000", "--capacity 10000000"]
+# capacities = ["--capacity 1500"]
 
 max_jobs_per_batch = 4
 max_total_cpus = 8
