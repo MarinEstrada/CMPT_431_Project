@@ -18,46 +18,54 @@ void knapSack(
     const uint thread_id,
     const uint num_threads,
     const uint granularity,
-    std::vector<int> &max_current,
-    std::vector<int> &max_prev,
+    std::vector<int> &arr1,
+    std::vector<int> &arr2,
+    std::vector<int> &arr3,
     std::atomic<uint> &next_initial_weight_range,
     CustomBarrier &the_wall
 ) {
     uint initial_weight_range = thread_id * granularity;
+    uint counter = 0;
     for (int i = 1; i < num_items + 1; i++) {
         while(true) {
             //printf("Initial weight is %d\n", initial_weight_range);
-            for (int w = initial_weight_range; (w < granularity + initial_weight_range && w <= total_capacity); w++) {     
-                // Finding the maximum value
-                //printf("In capacity: %d, From Thread: %d \n", w, thread_id);
-                // Check if capacity could hold weight of new item
-                if (w >= weights[i - 1]) {
-                    //printf("Comparing previous: %d with %d \nMax current of item %d in capacity %d is: %d\n", max_current[i - 1][w], max_current[i - 1][w - weights[i - 1]] + profits[i - 1], i, w, max_current[i][w]);
-                    max_current[w] = std::max(max_prev[w], max_prev[w - weights[i - 1]] + profits[i - 1]);
-                } else {
-                    max_current[w] = max_prev[w];
+            if (counter == 0) {
+                for (int w = initial_weight_range; (w < granularity + initial_weight_range && w <= arr2.size()); w++) {     
+                    // Finding the maximum value
+                    // Check if capacity could hold weight of new item
+                    if (w >= weights[i - 1]) {
+                        arr2[w] = std::max(arr1[w], arr1[w - weights[i - 1]] + profits[i - 1]);
+                    } else {
+                        arr2[w] = arr1[w];
+                    }
                 }
-                //printf("Max current of item %d in capacity %d is: %d\n", i, w, max_current[i][w]);
+            } else if (counter == 1) {
+                for (int w = initial_weight_range; (w < granularity + initial_weight_range && w <= arr3.size()); w++) {     
+                    // Finding the maximum value
+                    // Check if capacity could hold weight of new item
+                    if (w >= weights[i - 1]) {
+                        arr3[w] = std::max(arr2[w], arr2[w - weights[i - 1]] + profits[i - 1]);
+                    } else {
+                        arr3[w] = arr2[w];
+                    }
+                }
+            } else {
+                for (int w = initial_weight_range; (w < granularity + initial_weight_range && w <= arr1.size()); w++) {     
+                    // Finding the maximum value
+                    // Check if capacity could hold weight of new item
+                    if (w >= weights[i - 1]) {
+                        arr1[w] = std::max(arr3[w], arr3[w - weights[i - 1]] + profits[i - 1]);
+                    } else {
+                        arr1[w] = arr3[w];
+                    }
+                }
             }
             // Check if there are more 
             if (next_initial_weight_range.load() * granularity > total_capacity) {
                 // barrier
                 the_wall.wait();
-                // if (thread_id == 0 && i == num_items) {
-                //     for (const auto& row : max_current) { // Loop through each row
-                //         for (const auto& element : row) { // Loop through each element in the row
-                //             std::cout << element << " "; // Print the element
-                //         }
-                //         std::cout << std::endl; // Print a newline after each row
-                //     }
-                // }
-                // Swap arrays
-                if (thread_id == 0) {
-                    uint current_next = next_initial_weight_range.load();
-                    while (!next_initial_weight_range.compare_exchange_weak(current_next, num_threads));
-                    max_prev = max_current;
-                }
-                the_wall.wait();
+                uint current_next = next_initial_weight_range.load();
+                while (!next_initial_weight_range.compare_exchange_weak(current_next, num_threads));
                 break;
             }
             // Get next initial weight range...
@@ -71,6 +79,17 @@ void knapSack(
             }
         }
         initial_weight_range = thread_id * granularity;
+        counter++;
+        if (counter > 2) {
+            counter = 0;
+        }
+    }
+    if (thread_id ==0) {
+        if (counter == 1) {
+            arr1[total_capacity] = arr2[total_capacity];
+        } else if (counter == 2) {
+            arr1[total_capacity] = arr3[total_capacity];
+        }
     }
 }
 
@@ -80,27 +99,69 @@ void knapSack_default(
     const std::vector<int> &profits,
     const int num_items,
     const uint thread_id,
-    std::vector<int> &max_current,
-    std::vector<int> &max_prev,
+    std::vector<int> &arr3,
+    std::vector<int> &arr2,
+    std::vector<int> &arr1,
     CustomBarrier &the_wall,
     const uint initial_index,
     const uint end_index
 ) {
+    timer t1;
+    double total_time_waiting=0;
+
+    uint counter = 0;
+    uint counterarr1 = 0;
+    uint counterarr2 = 0;
+    uint counterarr3 = 0;
     for (int i = 1; i < num_items + 1; i++) {
-        for (int w = initial_index; w < end_index; w++) {
-            if (w >= weights[i - 1]) {
-                //printf("Comparing previous: %d with %d \nMax current of item %d in capacity %d is: %d\n", max_current[i - 1][w], max_current[i - 1][w - weights[i - 1]] + profits[i - 1], i, w, max_current[i][w]);
-                max_current[w] = std::max(max_prev[w], max_prev[w - weights[i - 1]] + profits[i - 1]);
-            } else {
-                max_current[w] = max_prev[w];
+        if (counter == 0) {
+            for (int w = initial_index; (w < end_index && w < arr2.size()); w++) {
+                if (w >= weights[i - 1]) {
+                    //printf("Comparing previous: %d with %d \nMax current of item %d in capacity %d is: %d\n", arr2[i - 1][w], arr2[i - 1][w - weights[i - 1]] + profits[i - 1], i, w, arr2[i][w]);
+                    arr2[w] = std::max(arr1[w], arr1[w - weights[i - 1]] + profits[i - 1]);
+                } else {
+                    arr2[w] = arr1[w];
+                }
             }
+            counterarr1++;
+        } else if(counter == 1){
+            for (int w = initial_index; (w < end_index && w < arr3.size()); w++) {
+                if (w >= weights[i - 1]) {
+                    //printf("Comparing previous: %d with %d \nMax current of item %d in capacity %d is: %d\n", arr2[i - 1][w], arr2[i - 1][w - weights[i - 1]] + profits[i - 1], i, w, arr2[i][w]);
+                    arr3[w] = std::max(arr2[w], arr2[w - weights[i - 1]] + profits[i - 1]);
+                } else {
+                    arr3[w] = arr2[w];
+                }
+            }
+            counterarr2++;
+        } else {
+            for (int w = initial_index; (w < end_index && w < arr1.size()); w++) {
+                if (w >= weights[i - 1]) {
+                    //printf("Comparing previous: %d with %d \nMax current of item %d in capacity %d is: %d\n", arr2[i - 1][w], arr2[i - 1][w - weights[i - 1]] + profits[i - 1], i, w, arr2[i][w]);
+                    arr1[w] = std::max(arr3[w], arr3[w - weights[i - 1]] + profits[i - 1]);
+                } else {
+                    arr1[w] = arr3[w];
+                }
+            }
+            counterarr3++;
         }
-        the_wall.wait();
-        if (thread_id == 0) {
-            max_prev = max_current;
+        counter++;
+        if (counter > 2) {
+            counter = 0;
         }
+        t1.start();
         the_wall.wait();
+        total_time_waiting+=t1.stop();
     }
+    if (thread_id ==0) {
+        printf("Counterarr1: %u\nCounterarr2: %u\nCounterarr3: %u\n", counterarr1, counterarr2, counterarr3);
+        if (counter == 1) {
+            arr1[total_capacity] = arr2[total_capacity];
+        } else if (counter == 2) {
+            arr1[total_capacity] = arr3[total_capacity];
+        }
+    }
+    printf("In thread %u start_index=%u and end_index=%u it waited at wall for %.4f seconds\n", thread_id, initial_index, end_index, total_time_waiting);
 }
 
 // Function to find the maximum values
@@ -113,8 +174,9 @@ int knapSack_parallel(
     const uint granularity
 ) {
     // 2d matrix where rows are items and columns are weights
-    std::vector<int> max_current(capacity+1, 0);
-    std::vector<int> max_prev(capacity+1, 0);
+    std::vector<int> arr1(capacity+1, 0);
+    std::vector<int> arr2(capacity+1, 0);
+    std::vector<int> arr3(capacity+1, 0);
     // Initial index for next weight range
     // Index increases according to granularity and threads take it when they are done with a weight range
     std::atomic<uint> next_initial_weight_range;
@@ -127,24 +189,27 @@ int knapSack_parallel(
     timer t1;
     t1.start();
 
-    if (granularity == 0) {
+    if (granularity == 0){
+        printf("Running default 1\n");
         uint capacity_per_thread = (capacity+1)/num_threads;
         uint start_index = 0;
         uint end_index = start_index+capacity_per_thread+(capacity+1)%num_threads;
+        std::cout << "Size of vectors is: " << arr3.size() << ", " << arr1.size() << ", " << arr2.size() << std::endl;
         
         for (uint thread_id = 0; thread_id < num_threads; thread_id++) {
             if (thread_id == num_threads - 1) {
                 end_index = capacity + 1;
             }
-            threads.emplace_back([capacity, &weights, &profits, num_items, thread_id, &max_current, &max_prev, &the_wall, start_index, end_index](){
-                knapSack_default(capacity, weights, profits, num_items, thread_id, max_current, max_prev, the_wall, start_index, end_index);});
+            threads.emplace_back([capacity, &weights, &profits, num_items, thread_id, &arr1, &arr2, &arr3, &the_wall, start_index, end_index](){
+                knapSack_default(capacity, weights, profits, num_items, thread_id, arr1, arr2, arr3, the_wall, start_index, end_index);});
             start_index = end_index;
             end_index = start_index+capacity_per_thread;
         }
     } else {
+        printf("Running with granularities\n");
         for (uint thread_id = 0; thread_id < num_threads; thread_id++) {
-            threads.emplace_back([capacity, &weights, &profits, num_items, thread_id, num_threads, granularity, &max_current, &max_prev, &next_initial_weight_range, &the_wall](){
-                knapSack(capacity, weights, profits, num_items, thread_id, num_threads, granularity, max_current, max_prev, next_initial_weight_range, the_wall);});
+            threads.emplace_back([capacity, &weights, &profits, num_items, thread_id, num_threads, granularity, &arr1, &arr2, &arr3, &next_initial_weight_range, &the_wall](){
+                knapSack(capacity, weights, profits, num_items, thread_id, num_threads, granularity, arr1, arr2, arr3, next_initial_weight_range, the_wall);});
         }
     }
 
@@ -154,9 +219,9 @@ int knapSack_parallel(
 
     auto execution_time = t1.stop();
     // Returning the maximum value of knapsack
-    printf("Maximum value of knapsack is %d\nTook %f seconds\n", max_current[capacity], execution_time);
-    //std::cout << max_current[num_items][capacity] << std::endl;
-    return max_current[capacity];
+    printf("Maximum value of knapsack is %d\nTook %f seconds\n", arr1[capacity], execution_time);
+    //std::cout << arr1[num_items][capacity] << std::endl;
+    return arr1[capacity];
 }
 
 // Driver code
