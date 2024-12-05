@@ -1,0 +1,111 @@
+--- Contents of slurm-219733.out ---
+Running knapsack_serial with 1 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 1000: Iteration 1
+Starting knapsack problem
+Capacity: 1000
+Num Items: 100000
+Num proccesses: 1
+Process_rank, start_index, end_index, time_taken
+0, 0, 1000, 0.02073
+Total time taken: 0.020795 seconds
+Maximum value: 88832
+
+
+--- Contents of slurm-219734.out ---
+Running knapsack_serial with 1 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 1000: Iteration 2
+Starting knapsack problem
+Capacity: 1000
+Num Items: 100000
+Num proccesses: 1
+Process_rank, start_index, end_index, time_taken
+0, 0, 1000, 0.020477
+Total time taken: 0.020538 seconds
+Maximum value: 88832
+
+
+--- Contents of slurm-219735.out ---
+Running knapsack_serial with 1 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 1000: Iteration 3
+Starting knapsack problem
+Capacity: 1000
+Num Items: 100000
+Num proccesses: 1
+Process_rank, start_index, end_index, time_taken
+0, 0, 1000, 0.020386
+Total time taken: 0.020478 seconds
+Maximum value: 88832
+
+
+--- Contents of slurm-219736.out ---
+Running knapsack_serial with 1 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 100000: Iteration 1
+Starting knapsack problem
+Capacity: 100000
+Num Items: 100000
+Num proccesses: 1
+Process_rank, start_index, end_index, time_taken
+0, 0, 100000, 23.682
+Total time taken: 23.683 seconds
+Maximum value: 5726685
+
+
+--- Contents of slurm-219741.out ---
+Running knapsack_serial with 1 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 100000: Iteration 2
+Starting knapsack problem
+Capacity: 100000
+Num Items: 100000
+Num proccesses: 1
+Process_rank, start_index, end_index, time_taken
+0, 0, 100000, 23.479
+Total time taken: 23.479 seconds
+Maximum value: 5726685
+
+
+--- Contents of slurm-219742.out ---
+Running knapsack_serial with 1 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 100000: Iteration 3
+Starting knapsack problem
+Capacity: 100000
+Num Items: 100000
+Num proccesses: 1
+Process_rank, start_index, end_index, time_taken
+0, 0, 100000, 23.472
+Total time taken: 23.472 seconds
+Maximum value: 5726685
+
+
+--- Contents of slurm-219743.out ---
+Running knapsack_serial with 1 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 10000000: Iteration 1
+Starting knapsack problem
+Capacity: 10000000
+Num Items: 100000
+Num proccesses: 1
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd-cs-cloud-02: error: *** JOB 219743 ON cs-cloud-02 CANCELLED AT 2024-12-04T18:39:10 DUE TO TIME LIMIT ***
+slurmstepd-cs-cloud-02: error: *** STEP 219743.0 ON cs-cloud-02 CANCELLED AT 2024-12-04T18:39:10 DUE TO TIME LIMIT ***
+srun: forcing job termination
+srun: got SIGCONT
+
+
+--- Contents of slurm-219744.out ---
+Running knapsack_serial with 1 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 10000000: Iteration 2
+Starting knapsack problem
+Capacity: 10000000
+Num Items: 100000
+Num proccesses: 1
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd-cs-cloud-02: error: *** STEP 219744.0 ON cs-cloud-02 CANCELLED AT 2024-12-04T18:39:10 DUE TO TIME LIMIT ***
+slurmstepd-cs-cloud-02: error: *** JOB 219744 ON cs-cloud-02 CANCELLED AT 2024-12-04T18:39:10 DUE TO TIME LIMIT ***
+srun: forcing job termination
+srun: got SIGCONT
+
+
+--- Contents of slurm-219793.out ---
+Running knapsack_serial with 1 MPI processes on 1 nodes, input hundred_thousand_input.txt & capacity 10000000: Iteration 3
+Starting knapsack problem
+Capacity: 10000000
+Num Items: 100000
+Num proccesses: 1
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd-cs-cloud-02: error: *** JOB 219793 ON cs-cloud-02 CANCELLED AT 2024-12-04T18:49:40 DUE TO TIME LIMIT ***
+slurmstepd-cs-cloud-02: error: *** STEP 219793.0 ON cs-cloud-02 CANCELLED AT 2024-12-04T18:49:40 DUE TO TIME LIMIT ***
+srun: forcing job termination
+srun: got SIGCONT
+
+
