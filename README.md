@@ -113,9 +113,7 @@ CMPT_431_Project
 ├── hundred_thousand_input.txt
 ├── knapsack_distributed.cpp
 ├── knapsack_parallel.cpp
-├── knapsack_parallel.h
 ├── knapsack_serial.cpp
-├── knapsack_serial.h
 ├── report.ipynb
 ├── serial_combined_output.txt
 ├── slurm_distributed.sh
