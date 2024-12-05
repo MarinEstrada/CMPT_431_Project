@@ -61,7 +61,7 @@ make
 _For the distributed implementation:_
 ```sh
 make 
-mpirun  -np 8 ./knapsack_serial --fName hundred_thousand_input.txt --capacity 1000000
+mpirun  -np 8 ./knapsack_distributed --fName hundred_thousand_input.txt --capacity 1000000
 ```
 
 For the MPI implementation, _ensure that your computer can handle 8 processes._
